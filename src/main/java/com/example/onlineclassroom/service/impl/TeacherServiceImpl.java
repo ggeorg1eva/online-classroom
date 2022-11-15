@@ -25,4 +25,17 @@ public class TeacherServiceImpl implements TeacherService {
         this.schoolClassService = schoolClassService;
     }
 
+
+    @Override
+    public boolean registerTeacher(String egn) {
+        Teacher teacher = teacherRepository.findByEgn(egn).orElse(null);
+        if (teacher == null){
+            return false;
+        }
+        teacher.setIsRegistered(true);
+
+        teacherRepository.save(teacher);
+
+        return true;
+    }
 }

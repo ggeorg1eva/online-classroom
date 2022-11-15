@@ -17,4 +17,16 @@ public class StudentServiceImpl implements StudentService {
         this.schoolClassService = schoolClassService;
     }
 
+    @Override
+    public boolean registerStudent(String egn) {
+        Student student = studentRepository.findByEgn(egn).orElse(null);
+        if (student == null){
+            return false;
+        }
+
+        student.setIsRegistered(true);
+        studentRepository.save(student);
+
+        return true;
+    }
 }

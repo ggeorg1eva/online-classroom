@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="commons::head">
+</head>
+<body>
+<!-- navigation -->
+<nav th:replace="commons::nav"></nav>
+<header class="masthead">
+    <div class="container">
+        <div class="masthead-heading text-uppercase">Welcome To Your Virtual Classroom!</div>
+        <th:block sec:authorize="!isAuthenticated()">
+            <a class="btn btn-primary btn-xl text-uppercase" href="/users/login">Sign up</a>
+            <span class="word-in-masthead">or</span>
+            <a class="btn btn-primary btn-xl text-uppercase" href="/users/register">Register</a>
+        </th:block>
+        <th:block sec:authorize="isAuthenticated()">
+            <form th:action="@{/users/logout}" th:method="post">
+                <input class="btn btn-primary btn-xl text-uppercase" type="submit" value="Logout">
+            </form>
+        </th:block>
+    </div>
+</header>
+
+<!-- footer -->
+<footer th:replace="commons::footer"></footer>
+<!-- scripts -->
+<div th:replace="commons::scripts"></div>
+</body>
+</html>

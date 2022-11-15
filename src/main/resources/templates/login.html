@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="commons::head">
+</head>
+<body>
+<!-- navigation -->
+<nav th:replace="commons::nav"></nav>
+
+<!-- login form -->
+<div class="container login-container">
+    <form id="my-form" th:method="post"
+          th:action="@{/users/login}">
+        <div class="form-group">
+            <label for="exampleInputUsername1">Username</label>
+            <input th:value="${username}"
+                   name="username"
+                   min="3" max="20" type="text" class="form-control" id="exampleInputUsername1"
+                   aria-describedby="usernameHelp" placeholder="Username">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input name="password"
+                   min="4"
+                   max="15" type="password" class="form-control" id="exampleInputPassword1"
+                   placeholder="Password">
+        </div>
+        <!--        <small th:if="${incorrectInput}" class="alert-danger errors">-->
+        <!--            Wrong username/password.-->
+        <!--        </small>-->
+
+        <div class="d-flex justify-content-center m-2">
+            <button type="submit" class="btn btn-light btn-outline-dark">Login</button>
+        </div>
+    </form>
+</div>
+
+
+<!-- footer -->
+<footer th:replace="commons::footer"></footer>
+<!-- scripts -->
+<div th:replace="commons::scripts"></div>
+</body>
+</html>

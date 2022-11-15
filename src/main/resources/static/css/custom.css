@@ -1,0 +1,26 @@
+.word-in-masthead{
+    padding: 1.25rem 1rem;
+    font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1.100rem;
+    font-weight: 700;
+}
+.logout-btn{
+    background-color: #ffc800;
+    border: none;
+    /* font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"!important; */
+    font-weight: normal!important;
+    font-size: 0.95rem!important;
+    color: #fff!important;
+    letter-spacing: 0.0625em!important;
+    padding: 0.5rem 1rem;
+}
+/*todo hover change logout button*/
+
+.register-form {
+    margin-top: 10%;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+#mainNav .nav-link{
+    background-color: #ffc800;
+}
