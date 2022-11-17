@@ -1,26 +1,66 @@
-.word-in-masthead{
+/*under nav masthead*/
+.word-in-masthead {
     padding: 1.25rem 1rem;
     font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: 1.100rem;
     font-weight: 700;
 }
-.logout-btn{
+
+/*nav + login button*/
+#mainNav .nav-link {
+    background-color: #ffc800;
+}
+
+.logout-btn {
     background-color: #ffc800;
     border: none;
     /* font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"!important; */
-    font-weight: normal!important;
-    font-size: 0.95rem!important;
-    color: #fff!important;
-    letter-spacing: 0.0625em!important;
+    font-weight: normal !important;
+    font-size: 0.95rem !important;
+    color: #fff !important;
+    letter-spacing: 0.0625em !important;
     padding: 0.5rem 1rem;
 }
-/*todo hover change logout button*/
 
+.logout-btn:hover {
+    color: #ffc800 !important;
+}
+
+/*buttons*/
+.btn {
+    background-color: #ffc800;
+    color: white;
+    outline-color: #ffbd00;
+}
+
+.btn:hover {
+    color: #ffc800;
+}
+
+/*register*/
 .register-form {
     margin-top: 10%;
     margin-left: 25%;
     margin-right: 25%;
 }
-#mainNav .nav-link{
+
+/*login*/
+.login-container {
+    height: 500px;
+}
+
+#login-form {
+    margin: 10% 25%;
+}
+
+tbody{
+    background-color: #ffeaa0;
+}
+thead{
     background-color: #ffc800;
+}
+.table > :not(:first-child) {
+    border-width: 1px 1px;
+    border-color: #614c00;
+    color: #614c00;
 }

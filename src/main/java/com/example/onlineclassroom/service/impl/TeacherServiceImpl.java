@@ -38,4 +38,9 @@ public class TeacherServiceImpl implements TeacherService {
 
         return true;
     }
+
+    @Override
+    public Teacher getTeacherByEgn(String teacherEgn) {
+        return teacherRepository.findByEgn(teacherEgn).orElse(null);
+    }
 }

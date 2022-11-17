@@ -32,11 +32,19 @@
             <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
                 <th:block sec:authorize="isAuthenticated()">
                     <li class="nav-item"><a class="nav-link" href="/users/profile">My profile</a></li>
-                    <li sec:authorize="hasRole('STUDENT')" class="nav-item"><a class="nav-link"
-                                                                               href="/students/my-classes">My
-                        classes</a></li>
-                    <li sec:authorize="hasRole('STUDENT')" class="nav-item"><a class="nav-link"
-                                                                               href="/students/my-grades">My grades</a>
+                    <li sec:authorize="hasRole('TEACHER')" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Assignments
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/teachers/my-assignments">My assignments</a></li>
+                            <li><a class="dropdown-item" href="/teachers/assignments/create">Create new assignment</a></li>
+                        </ul>
+                    </li>
+                    <li sec:authorize="hasRole('STUDENT')" class="nav-item">
+                        <a class="nav-link" href="/students/my-subjects">My subjects</a></li>
+                    <li sec:authorize="hasRole('STUDENT')" class="nav-item">
+                        <a class="nav-link" href="/students/my-grades">My grades</a>
                     </li>
                     <li class="nav-item">
                         <form th:action="@{/users/logout}" th:method="post">
@@ -48,8 +56,6 @@
                     <li class="nav-item"><a class="nav-link" href="/users/login">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="/users/register">Register</a></li>
                 </th:block>
-
-
             </ul>
         </div>
     </div>

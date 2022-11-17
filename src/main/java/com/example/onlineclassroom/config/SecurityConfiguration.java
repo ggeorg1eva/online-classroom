@@ -27,8 +27,8 @@ public class SecurityConfiguration{
 
         httpSecurity.authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .antMatchers("/users/register", "/users/delete/{id}", "/subjects/add").hasRole(UserRoleEnum.ADMIN.name())
-                .antMatchers("/assignments/add", "/assignments/delete/{id}", "/grades/add").hasRole(UserRoleEnum.TEACHER.name())
+                .antMatchers("/users/add", "/users/delete/{id}", "/subjects/add").hasRole(UserRoleEnum.ADMIN.name())
+                .antMatchers("/teachers/my-assignments", "/teachers/assignments/create", "/teachers/assignments/delete/{id}", "/grades/add").hasRole(UserRoleEnum.TEACHER.name())
                 .antMatchers("/students/{id}/assignments/").hasRole(UserRoleEnum.STUDENT.name())
                 .antMatchers("/", "/users/login", "/users/register").permitAll()
                 .anyRequest().authenticated()

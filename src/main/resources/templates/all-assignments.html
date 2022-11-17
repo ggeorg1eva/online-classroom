@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="commons::head">
+</head>
+<body>
+<!-- navigation -->
+<nav th:replace="commons::nav"></nav>
+
+<table class="table table-bordered m-2" style="width: 40rem;">
+    <caption class="caption-top text-center">Assignments</caption>
+    <thead>
+    <tr class="text-center">
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Date of creation</th>
+        <th scope="col">Due date</th>
+        <th scope="col">Classes</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="text-center" th:each="a : ${assignments}" th:object="${a}">
+        <td th:text="*{name}"></td>
+        <td th:unless="*{description == null}" th:text="*{description}"></td>
+        <td th:text="*{creationDate}"></td>
+        <td th:text="*{dueDate}"></td>
+        <td th:text="*{classNamesAsString}"></td>
+        <td>
+            <div>
+                <form th:action="@{/teachers/assignments/delete/{id} (id = *{id})}" th:method="delete">
+                    <input class="btn" type="submit" value="Delete">
+                </form>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- footer -->
+<footer th:replace="commons::footer"></footer>
+<!-- scripts -->
+<div th:replace="commons::scripts"></div>
+</body>
+</html>

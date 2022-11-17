@@ -10,7 +10,7 @@
 
 <!-- login form -->
 <div class="container login-container">
-    <form id="my-form" th:method="post"
+    <form id="login-form" th:method="post"
           th:action="@{/users/login}">
         <div class="form-group">
             <label for="exampleInputUsername1">Username</label>
@@ -31,7 +31,7 @@
         <!--        </small>-->
 
         <div class="d-flex justify-content-center m-2">
-            <button type="submit" class="btn btn-light btn-outline-dark">Login</button>
+            <button type="submit" class="btn">Login</button>
         </div>
     </form>
 </div>

@@ -13,6 +13,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -79,6 +81,11 @@ public class UserServiceImpl implements UserService {
         userRepository.save(userToRegister);
 
         return "successful";
+    }
 
+    @Override
+    public String getUserEgnByUsername(String username) {
+       return Objects.requireNonNull(userRepository.findByUsername(username).orElse(null))
+                .getEgn();
     }
 }

@@ -6,4 +6,6 @@ public interface UserService {
     void initAdmin();
 
     String registerUser(UserServiceModel serviceModel);
+
+    String getUserEgnByUsername(String username);
 }
