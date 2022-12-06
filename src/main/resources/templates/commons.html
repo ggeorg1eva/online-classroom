@@ -31,7 +31,6 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
                 <th:block sec:authorize="isAuthenticated()">
-                    <li class="nav-item"><a class="nav-link" href="/users/profile">My profile</a></li>
                     <li sec:authorize="hasRole('TEACHER')" class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Assignments
@@ -41,11 +40,13 @@
                             <li><a class="dropdown-item" href="/teachers/assignments/create">Create new assignment</a></li>
                         </ul>
                     </li>
+                    <li sec:authorize="hasRole('TEACHER')" class="nav-item"><a class="nav-link" href="/teachers/classes">Classes</a></li>
                     <li sec:authorize="hasRole('STUDENT')" class="nav-item">
                         <a class="nav-link" href="/students/my-subjects">My subjects</a></li>
                     <li sec:authorize="hasRole('STUDENT')" class="nav-item">
                         <a class="nav-link" href="/students/my-grades">My grades</a>
                     </li>
+                    <li class="nav-item"><a class="nav-link" href="/users/profile">My profile</a></li>
                     <li class="nav-item">
                         <form th:action="@{/users/logout}" th:method="post">
                             <input class="navbar-brand logout-btn" type="submit" value="Logout">

@@ -28,8 +28,10 @@ public class SecurityConfiguration{
         httpSecurity.authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/users/add", "/users/delete/{id}", "/subjects/add").hasRole(UserRoleEnum.ADMIN.name())
-                .antMatchers("/teachers/my-assignments", "/teachers/assignments/create", "/teachers/assignments/delete/{id}", "/grades/add").hasRole(UserRoleEnum.TEACHER.name())
-                .antMatchers("/students/{id}/assignments/").hasRole(UserRoleEnum.STUDENT.name())
+                .antMatchers("/teachers/my-assignments", "/teachers/assignments/create", "/teachers/assignments/delete/{id}",
+                        "/teachers/classes", "/teachers/grades/classes/{id}", "/teachers/grades/add/{stId}",
+                        "/teachers/grades/add/{stId}").hasRole(UserRoleEnum.TEACHER.name())
+                .antMatchers("/students/my-subjects").hasRole(UserRoleEnum.STUDENT.name())
                 .antMatchers("/", "/users/login", "/users/register").permitAll()
                 .anyRequest().authenticated()
             .and()

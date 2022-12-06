@@ -4,4 +4,5 @@ import com.example.onlineclassroom.model.entity.Subject;
 
 public interface SubjectService {
     Subject getSubjectByName(String name);
+
 }

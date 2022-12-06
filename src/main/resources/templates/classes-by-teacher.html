@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="commons::head">
+</head>
+<body>
+<!-- navigation -->
+<nav th:replace="commons::nav"></nav>
+
+<!-- bootstrap list template: https://bootstrapious.com/p/bootstrap-list -->
+<div class="card shadow mb-4">
+    <div class="card-body p-5">
+        <h4 class="mb-4">Classes I teach</h4>
+        <!-- List with bullets -->
+        <ul class="list-bullets">
+            <li th:each="c : ${classes}" class="mb-2">
+                <a th:text="${c.name.name.replace('_', ' ')}" th:href="@{/teachers/grades/classes/{id} (id = ${c.id})}"></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- footer -->
+<footer th:replace="commons::footer"></footer>
+<!-- scripts -->
+<div th:replace="commons::scripts"></div>
+</body>
+</html>

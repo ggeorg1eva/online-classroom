@@ -1,11 +1,13 @@
 package com.example.onlineclassroom.web;
 
 import com.example.onlineclassroom.model.binding.AssignmentCreateBindingModel;
+import com.example.onlineclassroom.model.binding.GradeAddBindingModel;
 import com.example.onlineclassroom.model.service.AssignmentServiceModel;
-import com.example.onlineclassroom.model.view.AssignmentView;
-import com.example.onlineclassroom.service.AssignmentService;
-import com.example.onlineclassroom.service.TeacherService;
-import com.example.onlineclassroom.service.UserService;
+import com.example.onlineclassroom.model.service.GradeServiceModel;
+import com.example.onlineclassroom.model.view.AssignmentViewTeacher;
+import com.example.onlineclassroom.model.view.SchoolClassView;
+import com.example.onlineclassroom.model.view.StudentView;
+import com.example.onlineclassroom.service.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,48 +19,55 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
 @RequestMapping("/teachers")
 public class TeacherController {
     private final TeacherService teacherService;
+    private final StudentService studentService;
     private final AssignmentService assignmentService;
+    private final SubjectService subjectService;
     private final UserService userService;
+    private final GradeService gradeService;
     private final ModelMapper modelMapper;
 
-    public TeacherController(TeacherService teacherService, AssignmentService assignmentService, UserService userService, ModelMapper modelMapper) {
+    public TeacherController(TeacherService teacherService, StudentService studentService, AssignmentService assignmentService, SubjectService subjectService, UserService userService, GradeService gradeService, ModelMapper modelMapper) {
         this.teacherService = teacherService;
+        this.studentService = studentService;
         this.assignmentService = assignmentService;
+        this.subjectService = subjectService;
         this.userService = userService;
+        this.gradeService = gradeService;
         this.modelMapper = modelMapper;
     }
 
     @GetMapping("/my-assignments")
-    public String viewAllAssignmentsByTeacher(@AuthenticationPrincipal UserDetails principal, Model model){
+    public String viewAllAssignmentsByTeacher(@AuthenticationPrincipal UserDetails principal, Model model) {
         String principalEgn = userService.getUserEgnByUsername(principal.getUsername());
 
-        List<AssignmentView> assignmentViews = assignmentService.getAllAssignmentViewsByTeacherEgn(principalEgn);
+        List<AssignmentViewTeacher> assignmentViewTeachers = assignmentService.getAllAssignmentViewsByTeacherEgn(principalEgn);
 
-        model.addAttribute("assignments", assignmentViews);
-        return "all-assignments";
+        model.addAttribute("assignments", assignmentViewTeachers);
+        return "all-assignments-by-teacher";
 
     }
 
     @ModelAttribute
-    public AssignmentCreateBindingModel assignmentCreateBindingModel(){
+    public AssignmentCreateBindingModel assignmentCreateBindingModel() {
         return new AssignmentCreateBindingModel();
     }
 
     @GetMapping("/assignments/create")
-    public String createAssignment(){
+    public String createAssignment() {
         return "create-assignment";
     }
 
     @PostMapping("/assignments/create")
     public String createAssignmentPost(@Valid AssignmentCreateBindingModel assignmentCreateBindingModel, BindingResult bindingResult,
-                                       RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails principal){
-        if (bindingResult.hasErrors()){
+                                       RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails principal) {
+        if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("assignmentCreateBindingModel", assignmentCreateBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.assignmentCreateBindingModel", bindingResult);
             return "redirect:/teachers/assignments/create";
@@ -75,9 +84,78 @@ public class TeacherController {
     }
 
     @DeleteMapping("/assignments/delete/{id}")
-    public String deleteAssignmentById(@PathVariable Long id){
+    public String deleteAssignmentById(@PathVariable Long id) {
         assignmentService.deleteAssignmentById(id);
 
         return "redirect:/teachers/my-assignments";
     }
+
+    @GetMapping("/classes")
+    public String getClassesByTeacherEgn(@AuthenticationPrincipal UserDetails principal, Model model) {
+        String principalEgn = userService.getUserEgnByUsername(principal.getUsername());
+
+        List<SchoolClassView> classes = teacherService.getClassesByTeacherEgn(principalEgn);
+
+        model.addAttribute("classes", classes);
+
+        return "classes-by-teacher";
+    }
+
+    @GetMapping("/grades/classes/{id}")
+    public String getStudentGradesByClass(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails principal) {
+        List<StudentView> students = studentService.getStudentsByClassId(id);
+        students.forEach(studentView ->
+                studentView.setGradesAsString(gradeService.getStudentGradesAsStringByStudId(studentView.getId())));
+
+        model.addAttribute("students", students);
+        //so that a teacher can choose an assignment for which they want to add a grade to a student
+        // in the addGradeToStudentWithId() method
+        model.addAttribute("assignments", assignmentService.getAllAssignmentsNameAndDueDateByTeacherEgn(
+                userService.getUserEgnByUsername(principal.getUsername())
+        ));
+        return "class-students-grades";
+    }
+
+    @ModelAttribute
+    public GradeAddBindingModel gradeAddBindingModel() {
+        return new GradeAddBindingModel();
+    }
+
+    @PostMapping("/grades/add/{stId}")
+    public String addGradeToStudentWithId(@PathVariable Long stId, @AuthenticationPrincipal UserDetails principal,
+                                          @Valid GradeAddBindingModel gradeAddBindingModel, BindingResult bindingResult,
+                                          RedirectAttributes redirectAttributes) {
+
+        String principalEgn = userService.getUserEgnByUsername(principal.getUsername());
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("gradeAddBindingModel", gradeAddBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.gradeAddBindingModel", bindingResult);
+            return "redirect:/teachers/grades";
+        }
+
+        gradeAddBindingModel.setStudentId(stId);
+        //todo fix time zone
+        gradeAddBindingModel.setDateOfCreation(LocalDateTime.now());
+        gradeAddBindingModel.setSubjectName(teacherService.getTeacherSubjectName(principalEgn));
+        GradeServiceModel serviceModel = modelMapper.map(gradeAddBindingModel, GradeServiceModel.class);
+        //if this is not explicitly set to null, ModelMapper class sets it to the value found in studentId field
+        serviceModel.setId(null);
+
+        //no matter if there is an assignment to the grade, we don't want to create the grade with it
+        //it will be added later to it, that is why this field is set to null:
+        serviceModel.setAssignmentNameAndDueDate(null);
+
+        //returns the id of the just created grade so that if it was for an assignment,
+        // this assignment can be added to it
+        Long createdGradeId = gradeService.createGrade(serviceModel);
+
+        if (!gradeAddBindingModel.getAssignmentNameAndDueDateString().equalsIgnoreCase("none")) {
+            assignmentService.addAssignmentToGrade(gradeAddBindingModel.getAssignmentNameAndDueDateString(), createdGradeId);
+        }
+
+
+        return "redirect:/teachers/classes";
+    }
+
 }

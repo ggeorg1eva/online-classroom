@@ -7,8 +7,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class TeacherServiceModel {
-
-    private String name;
+    private String fullName;
 
     private String egn;
 

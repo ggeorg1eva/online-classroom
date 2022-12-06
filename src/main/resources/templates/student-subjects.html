@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="commons::head">
+</head>
+<body>
+<!-- navigation -->
+<nav th:replace="commons::nav"></nav>
+
+<table class="table table-bordered m-2" style="width: 40rem;">
+    <caption class="caption-top text-center">My subjects</caption>
+    <thead>
+    <tr class="text-center">
+        <th scope="col">Subject name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="text-center" th:each="s : ${subjects}" th:object="${s}">
+        <td><a class="table-link" th:text="*{name}" th:href="@{/students/my-subjects/{id}/assignments (id = *{id})}"></a></td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- footer -->
+<footer th:replace="commons::footer"></footer>
+<!-- scripts -->
+<div th:replace="commons::scripts"></div>
+</body>
+</html>

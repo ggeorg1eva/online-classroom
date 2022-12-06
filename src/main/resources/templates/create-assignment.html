@@ -31,7 +31,7 @@
         <label class="p-2" for="dueDate">Due date</label>
         <input th:field="*{dueDate}" type="date" th:classappend="${#fields.hasErrors('dueDate')}? 'bg-warning'" th:errorclass="is-invalid" class="form-control m-2" id="dueDate"
                placeholder="Due date">
-        <small id="dueDateIncorrect" class="invalid-feedback bg-warning text-light rounded m-2 p-2">
+        <small id="dueDateIncorrect" class="invalid-feedback bg-warning text-dark rounded m-2 p-2">
             Due date should be in the future
         </small>
     </div>

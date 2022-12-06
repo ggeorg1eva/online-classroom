@@ -64,3 +64,32 @@ thead{
     border-color: #614c00;
     color: #614c00;
 }
+/* classes-grades list */
+.list-bullets {
+    list-style: none;
+}
+
+.list-bullets li {
+    display: flex;
+    align-items: center;
+}
+
+.list-bullets li::before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff9200;
+    border: 2px solid #ff9b00;
+    display: block;
+    margin-right: 1rem;
+}
+.list-bullets li a {
+    text-decoration: none;
+    color: #be5200;
+}
+/*student-subjects html*/
+.table-link{
+    text-decoration: none;
+    color: #614c00;
+}

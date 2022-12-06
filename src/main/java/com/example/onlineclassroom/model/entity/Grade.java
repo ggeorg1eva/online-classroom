@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "grades")
@@ -14,9 +16,16 @@ public class Grade extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private GradeEnum grade;
 
+    @Column(name = "date_of_creation", nullable = false)
+    private LocalDateTime dateOfCreation;
+
     @ManyToOne
     private Subject subject;
 
     @ManyToOne
     private Student student;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Assignment assignment;
+
 }
