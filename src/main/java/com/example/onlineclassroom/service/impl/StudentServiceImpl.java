@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,5 +63,13 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentRepository.findByEgn(studentEgn).orElse(null);
 
         return student.getSchoolClass().getId();
+    }
+
+    @Override
+    public Long getStudentIdByEgn(String egn) {
+        return Objects.requireNonNull(studentRepository
+                        .findByEgn(egn)
+                        .orElse(null))
+                .getId();
     }
 }

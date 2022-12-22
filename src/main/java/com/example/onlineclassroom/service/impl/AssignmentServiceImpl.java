@@ -1,5 +1,6 @@
 package com.example.onlineclassroom.service.impl;
 
+import com.example.onlineclassroom.model.binding.GradeAddBindingModel;
 import com.example.onlineclassroom.model.entity.Assignment;
 import com.example.onlineclassroom.model.entity.SchoolClass;
 import com.example.onlineclassroom.model.entity.enumeration.ClassNameEnum;
@@ -85,8 +86,8 @@ public class AssignmentServiceImpl implements AssignmentService {
                     view.setGrade(gradeService.getGradeEnumByAssignmentIdAndStudentEgn(assignment.getId(), studentEgn));
                     return view;
                 })
-                .sorted(Comparator.comparing(AssignmentViewStudent::getName)
-                        .thenComparing(AssignmentViewStudent::getDueDate))
+                .sorted(Comparator.comparing(AssignmentViewStudent::getDueDate)
+                        .thenComparing(AssignmentViewStudent::getName))
                 .toList();
     }
 
@@ -100,15 +101,16 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public void addAssignmentToGrade(String assignmentNameAndDueDateString, Long createdGradeId) {
+    public boolean addAssignmentToGrade(GradeAddBindingModel gradeAddBindingModel, Long createdGradeId) {
         //regex for the ": " by which the name and the dueDate were concatenated
-        String[] assignmentInfoArr = assignmentNameAndDueDateString.split(":\\s");
+        String[] assignmentInfoArr = gradeAddBindingModel.getAssignmentNameAndDueDateString().split(":\\s");
 
         String name = assignmentInfoArr[0];
         LocalDate dueDate = LocalDate.parse(assignmentInfoArr[1], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         Assignment assignment = assignmentRepository.findByNameAndDueDate(name, dueDate).orElse(null);
 
-        gradeService.updateGradeWithAssignment(createdGradeId, assignment);
+        boolean isAssignmentAdded = gradeService.updateGradeWithAssignment(createdGradeId, assignment, gradeAddBindingModel);
+        return isAssignmentAdded;
     }
 }

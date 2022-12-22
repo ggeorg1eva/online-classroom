@@ -1,6 +1,7 @@
 package com.example.onlineclassroom.web;
 
 import com.example.onlineclassroom.model.view.AssignmentViewStudent;
+import com.example.onlineclassroom.model.view.GradeView;
 import com.example.onlineclassroom.model.view.SubjectView;
 import com.example.onlineclassroom.service.*;
 import org.modelmapper.ModelMapper;
@@ -22,19 +23,21 @@ public class StudentController {
     private final SchoolClassService schoolClassService;
     private final TeacherService teacherService;
     private final AssignmentService assignmentService;
+    private final GradeService gradeService;
     private final ModelMapper modelMapper;
 
-    public StudentController(StudentService studentService, UserService userService, SchoolClassService schoolClassService, TeacherService teacherService, AssignmentService assignmentService, ModelMapper modelMapper) {
+    public StudentController(StudentService studentService, UserService userService, SchoolClassService schoolClassService, TeacherService teacherService, AssignmentService assignmentService, GradeService gradeService, ModelMapper modelMapper) {
         this.studentService = studentService;
         this.userService = userService;
         this.schoolClassService = schoolClassService;
         this.teacherService = teacherService;
         this.assignmentService = assignmentService;
+        this.gradeService = gradeService;
         this.modelMapper = modelMapper;
     }
 
     @GetMapping("/my-subjects")
-    public String getSubjectsByStudentEgn(@AuthenticationPrincipal UserDetails principal, Model model){
+    public String getSubjectsByStudentEgn(@AuthenticationPrincipal UserDetails principal, Model model) {
         String studentEgn = userService.getUserEgnByUsername(principal.getUsername());
         Long schoolClassId = studentService.getSchoolClassIdByStudentEgn(studentEgn);
 
@@ -45,7 +48,7 @@ public class StudentController {
     }
 
     @GetMapping("/my-subjects/{id}/assignments")
-    public String getAssignmentsByTeacherId(@PathVariable Long id, @AuthenticationPrincipal UserDetails principal, Model model){
+    public String getAssignmentsByTeacherId(@PathVariable Long id, @AuthenticationPrincipal UserDetails principal, Model model) {
         String studentEgn = userService.getUserEgnByUsername(principal.getUsername());
         Long schoolClassId = studentService.getSchoolClassIdByStudentEgn(studentEgn);
         Long teacherId = teacherService.getTeacherIdBySchoolClassIdAndSubjectId(schoolClassId, id);
@@ -57,5 +60,15 @@ public class StudentController {
 
         model.addAttribute("assignments", assignments);
         return "assignments-by-subject";
+    }
+
+    @GetMapping("/my-subjects/{id}/grades")
+    public String getGradesByStudentEgnAndTeacherId(@PathVariable Long id, @AuthenticationPrincipal UserDetails principal, Model model) {
+        String studentEgn = userService.getUserEgnByUsername(principal.getUsername());
+        Long studentId = studentService.getStudentIdByEgn(studentEgn);
+
+        List<GradeView> grades = gradeService.getGradeViewsByStudentIdAndSubjectId(studentId, id);
+        //todo finish method
+        return "";
     }
 }

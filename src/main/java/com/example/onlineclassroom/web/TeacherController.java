@@ -104,14 +104,22 @@ public class TeacherController {
     @GetMapping("/grades/classes/{id}")
     public String getStudentGradesByClass(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails principal) {
         List<StudentView> students = studentService.getStudentsByClassId(id);
+        // need teacherEgn to find assignments and subjectId
+        String teacherEgn = userService.getUserEgnByUsername(principal.getUsername());
+
         students.forEach(studentView ->
-                studentView.setGradesAsString(gradeService.getStudentGradesAsStringByStudId(studentView.getId())));
+                {
+                    studentView.setGradesBySubject(gradeService.getGradeViewsByStudentIdAndSubjectId(studentView.getId(),
+                            teacherService.getTeacherSubjectViewByEgn(teacherEgn).getId()));
+                    studentView.setGradesAsString(gradeService.getGradesViewListAsString(studentView.getGradesBySubject()));
+                }
+        );
 
         model.addAttribute("students", students);
         //so that a teacher can choose an assignment for which they want to add a grade to a student
         // in the addGradeToStudentWithId() method
         model.addAttribute("assignments", assignmentService.getAllAssignmentsNameAndDueDateByTeacherEgn(
-                userService.getUserEgnByUsername(principal.getUsername())
+                teacherEgn
         ));
         return "class-students-grades";
     }
@@ -137,7 +145,7 @@ public class TeacherController {
         gradeAddBindingModel.setStudentId(stId);
         //todo fix time zone
         gradeAddBindingModel.setDateOfCreation(LocalDateTime.now());
-        gradeAddBindingModel.setSubjectName(teacherService.getTeacherSubjectName(principalEgn));
+        gradeAddBindingModel.setSubjectName(teacherService.getTeacherSubjectViewByEgn(principalEgn).getName());
         GradeServiceModel serviceModel = modelMapper.map(gradeAddBindingModel, GradeServiceModel.class);
         //if this is not explicitly set to null, ModelMapper class sets it to the value found in studentId field
         serviceModel.setId(null);
@@ -149,9 +157,15 @@ public class TeacherController {
         //returns the id of the just created grade so that if it was for an assignment,
         // this assignment can be added to it
         Long createdGradeId = gradeService.createGrade(serviceModel);
+        //todo fix redirect path and combine the create and update methods in one action
 
         if (!gradeAddBindingModel.getAssignmentNameAndDueDateString().equalsIgnoreCase("none")) {
-            assignmentService.addAssignmentToGrade(gradeAddBindingModel.getAssignmentNameAndDueDateString(), createdGradeId);
+            boolean isAssignmentAdded = assignmentService.addAssignmentToGrade(gradeAddBindingModel, createdGradeId);
+            if (!isAssignmentAdded){
+                redirectAttributes.addFlashAttribute("assignmentNotAdded", true);
+
+                return "redirect:/teachers/grades/classes/{id}";
+            }
         }
 
 

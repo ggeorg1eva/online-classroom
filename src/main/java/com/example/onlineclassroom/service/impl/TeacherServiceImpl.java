@@ -3,11 +3,13 @@ package com.example.onlineclassroom.service.impl;
 import com.example.onlineclassroom.model.entity.SchoolClass;
 import com.example.onlineclassroom.model.entity.Teacher;
 import com.example.onlineclassroom.model.view.SchoolClassView;
+import com.example.onlineclassroom.model.view.SubjectView;
 import com.example.onlineclassroom.repository.TeacherRepository;
 import com.example.onlineclassroom.service.SchoolClassService;
 import com.example.onlineclassroom.service.SubjectService;
 import com.example.onlineclassroom.service.TeacherService;
 import com.example.onlineclassroom.service.UserRoleService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -21,12 +23,14 @@ public class TeacherServiceImpl implements TeacherService {
     private final UserRoleService userRoleService;
     private final SubjectService subjectService;
     private final SchoolClassService schoolClassService;
+    private final ModelMapper modelMapper;
 
-    public TeacherServiceImpl(TeacherRepository teacherRepository, UserRoleService userRoleService, SubjectService subjectService, SchoolClassService schoolClassService) {
+    public TeacherServiceImpl(TeacherRepository teacherRepository, UserRoleService userRoleService, SubjectService subjectService, SchoolClassService schoolClassService, ModelMapper modelMapper) {
         this.teacherRepository = teacherRepository;
         this.userRoleService = userRoleService;
         this.subjectService = subjectService;
         this.schoolClassService = schoolClassService;
+        this.modelMapper = modelMapper;
     }
 
 
@@ -60,8 +64,8 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public String getTeacherSubjectName(String principalEgn) {
-        return this.getTeacherByEgn(principalEgn).getSubject().getName();
+    public SubjectView getTeacherSubjectViewByEgn(String principalEgn) {
+        return modelMapper.map(this.getTeacherByEgn(principalEgn).getSubject(), SubjectView.class);
     }
 
     @Override

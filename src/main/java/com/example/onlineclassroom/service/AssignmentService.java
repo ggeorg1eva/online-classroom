@@ -1,5 +1,6 @@
 package com.example.onlineclassroom.service;
 
+import com.example.onlineclassroom.model.binding.GradeAddBindingModel;
 import com.example.onlineclassroom.model.service.AssignmentServiceModel;
 import com.example.onlineclassroom.model.view.AssignmentViewStudent;
 import com.example.onlineclassroom.model.view.AssignmentViewTeacher;
@@ -17,5 +18,5 @@ public interface AssignmentService {
 
     List<String> getAllAssignmentsNameAndDueDateByTeacherEgn(String principalEgn);
 
-    void addAssignmentToGrade(String assignmentNameAndDueDateString, Long createdGradeId);
+    boolean addAssignmentToGrade(GradeAddBindingModel gradeAddBindingModel, Long createdGradeId);
 }

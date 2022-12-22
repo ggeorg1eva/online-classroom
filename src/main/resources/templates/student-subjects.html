@@ -13,11 +13,17 @@
     <thead>
     <tr class="text-center">
         <th scope="col">Subject name</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
     <tr class="text-center" th:each="s : ${subjects}" th:object="${s}">
-        <td><a class="table-link" th:text="*{name}" th:href="@{/students/my-subjects/{id}/assignments (id = *{id})}"></a></td>
+        <td th:text="*{name}">
+        </td>
+        <td><a class="btn" th:text="assignments" th:href="@{/students/my-subjects/{id}/assignments (id = *{id})}"></a>
+        </td>
+        <td><a class="btn" th:text="grades" th:href="@{/students/my-subjects/{id}/grades (id = *{id})}"></a></td>
     </tr>
     </tbody>
 </table>
