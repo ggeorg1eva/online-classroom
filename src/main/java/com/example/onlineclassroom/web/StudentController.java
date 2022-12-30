@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/students")
@@ -53,22 +54,28 @@ public class StudentController {
         Long schoolClassId = studentService.getSchoolClassIdByStudentEgn(studentEgn);
         Long teacherId = teacherService.getTeacherIdBySchoolClassIdAndSubjectId(schoolClassId, id);
 
-        //studentEgn is given to the method so that the grade of this student for this assignment can be found if it exists
-        //some grades are related to assignments but assignments are not related to the grades because one assignment is not
-        //related to only one student
-        List<AssignmentViewStudent> assignments = assignmentService.getAllAssignmentViewsByTeacherId(teacherId, studentEgn);
+
+        List<AssignmentViewStudent> assignments = assignmentService
+                .getAllAssignmentViewsByTeacherId(teacherId)
+                .stream()
+                //studentEgn is needed so that the grade of this student for this assignment can be found if it exists
+                //some grades are related to assignments but assignments are not related to the grades because one assignment is not
+                //related to only one student
+                .peek(view -> view.setGrade(gradeService.getGradeEnumByAssignmentIdAndStudentEgn(view.getId(), studentEgn)))
+                .collect(Collectors.toList());
 
         model.addAttribute("assignments", assignments);
         return "assignments-by-subject";
     }
 
     @GetMapping("/my-subjects/{id}/grades")
-    public String getGradesByStudentEgnAndTeacherId(@PathVariable Long id, @AuthenticationPrincipal UserDetails principal, Model model) {
+    public String getGradesByStudentIdAndSubjectId(@PathVariable Long id, @AuthenticationPrincipal UserDetails principal, Model model) {
         String studentEgn = userService.getUserEgnByUsername(principal.getUsername());
         Long studentId = studentService.getStudentIdByEgn(studentEgn);
 
         List<GradeView> grades = gradeService.getGradeViewsByStudentIdAndSubjectId(studentId, id);
-        //todo finish method
-        return "";
+
+        model.addAttribute("grades", grades);
+        return "grades-by-subject";
     }
 }

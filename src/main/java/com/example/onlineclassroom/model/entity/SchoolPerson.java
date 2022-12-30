@@ -24,4 +24,7 @@ public class SchoolPerson extends BaseEntity {
 
     @Column(name = "is_registered", columnDefinition = "boolean default false")
     private Boolean isRegistered;
+
+    @Column(nullable = false, columnDefinition = "char")
+    private Character gender;
 }

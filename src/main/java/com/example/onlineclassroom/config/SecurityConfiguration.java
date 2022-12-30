@@ -29,9 +29,8 @@ public class SecurityConfiguration{
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/users/add", "/users/delete/{id}", "/subjects/add").hasRole(UserRoleEnum.ADMIN.name())
                 .antMatchers("/teachers/my-assignments", "/teachers/assignments/create", "/teachers/assignments/delete/{id}",
-                        "/teachers/classes", "/teachers/grades/classes/{id}", "/teachers/grades/add/{stId}",
-                        "/teachers/grades/add/{stId}").hasRole(UserRoleEnum.TEACHER.name())
-                .antMatchers("/students/my-subjects").hasRole(UserRoleEnum.STUDENT.name())
+                        "/teachers/classes", "/teachers/grades/classes/{id}", "/teachers/grades/add/{stId}").hasRole(UserRoleEnum.TEACHER.name())
+                .antMatchers("/students/my-subjects", "/students/my-subjects/{id}/assignments", "/students/my-subjects/{id}/grades").hasRole(UserRoleEnum.STUDENT.name())
                 .antMatchers("/", "/users/login", "/users/register").permitAll()
                 .anyRequest().authenticated()
             .and()
@@ -40,7 +39,7 @@ public class SecurityConfiguration{
                 .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
                 .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
                 .defaultSuccessUrl("/", true)
-                .failureUrl("/users/login-error")
+                .failureUrl("/users/login?error=true")
             .and()
                 .logout()
                 .logoutUrl("/users/logout")

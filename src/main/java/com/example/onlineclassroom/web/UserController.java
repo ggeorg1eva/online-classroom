@@ -2,11 +2,17 @@ package com.example.onlineclassroom.web;
 
 import com.example.onlineclassroom.model.binding.UserRegisterBindingModel;
 import com.example.onlineclassroom.model.service.UserServiceModel;
+import com.example.onlineclassroom.model.view.TeacherProfileView;
+import com.example.onlineclassroom.model.view.UserProfileView;
+import com.example.onlineclassroom.service.StudentService;
+import com.example.onlineclassroom.service.TeacherService;
 import com.example.onlineclassroom.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,11 +26,15 @@ import javax.validation.Valid;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final TeacherService teacherService;
+    private final StudentService studentService;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService, TeacherService teacherService, StudentService studentService, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.teacherService = teacherService;
+        this.studentService = studentService;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
     }
@@ -75,15 +85,22 @@ public class UserController {
         return "login";
     }
 
-    @PostMapping("/login-error")
-    public String loginFailed(
-            @ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String userName,
-            RedirectAttributes redirectAttributes) {
+    @GetMapping("/my-profile")
+    public String getMyProfileInfo(@AuthenticationPrincipal UserDetails principal, Model model) {
+        String principalUsername = principal.getUsername();
 
-        redirectAttributes.addFlashAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY, userName);
-        //todo fix or delete this
-        // redirectAttributes.addFlashAttribute("incorrectInput",true);
+        String principalEgn = userService.getUserEgnByUsername(principalUsername);
 
-        return "redirect:/login";
+        UserProfileView userView = userService.getUserViewFromUsername(principalUsername);
+
+        int yearOfBirth = Integer.parseInt(principalEgn.substring(0, 2));
+        //if year is > 9 than the person was born before 2000, and we know for sure that they cant be a student
+        if (yearOfBirth > 9) {
+            TeacherProfileView teacherView =  teacherService.getTeacherProfileInfoFromUserView(userView);
+            //todo finish logic for profiles, see if you need two separate methods in controller or not
+        }
+
+
+        return "my-profile";
     }
 }

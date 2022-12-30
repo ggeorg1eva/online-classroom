@@ -28,14 +28,12 @@ public class AssignmentServiceImpl implements AssignmentService {
     private final AssignmentRepository assignmentRepository;
     private final TeacherService teacherService;
     private final SchoolClassService schoolClassService;
-    private final GradeService gradeService;
     private final ModelMapper modelMapper;
 
-    public AssignmentServiceImpl(AssignmentRepository assignmentRepository, TeacherService teacherService, SchoolClassService schoolClassService, GradeService gradeService, ModelMapper modelMapper) {
+    public AssignmentServiceImpl(AssignmentRepository assignmentRepository, TeacherService teacherService, SchoolClassService schoolClassService,  ModelMapper modelMapper) {
         this.assignmentRepository = assignmentRepository;
         this.teacherService = teacherService;
         this.schoolClassService = schoolClassService;
-        this.gradeService = gradeService;
         this.modelMapper = modelMapper;
     }
 
@@ -72,18 +70,18 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public void deleteAssignmentById(Long id) {
+
         assignmentRepository.deleteById(id);
     }
 
     @Override
-    public List<AssignmentViewStudent> getAllAssignmentViewsByTeacherId(Long teacherId, String studentEgn) {
+    public List<AssignmentViewStudent> getAllAssignmentViewsByTeacherId(Long teacherId) {
         return assignmentRepository.findAllByTeacherId(teacherId)
                 .stream()
                 .map(assignment -> {
                     AssignmentViewStudent view = modelMapper.map(assignment, AssignmentViewStudent.class);
                     view.setTeacherFullName(assignment.getTeacher().getFirstName() + " " + assignment.getTeacher().getLastName());
                     view.setSubjectName(assignment.getTeacher().getSubject().getName());
-                    view.setGrade(gradeService.getGradeEnumByAssignmentIdAndStudentEgn(assignment.getId(), studentEgn));
                     return view;
                 })
                 .sorted(Comparator.comparing(AssignmentViewStudent::getDueDate)
@@ -101,16 +99,13 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public boolean addAssignmentToGrade(GradeAddBindingModel gradeAddBindingModel, Long createdGradeId) {
+    public Assignment getAssignmentByNameAndDueDateStr(String str) {
         //regex for the ": " by which the name and the dueDate were concatenated
-        String[] assignmentInfoArr = gradeAddBindingModel.getAssignmentNameAndDueDateString().split(":\\s");
+        String[] assignmentInfoArr = str.split(":\\s");
 
         String name = assignmentInfoArr[0];
         LocalDate dueDate = LocalDate.parse(assignmentInfoArr[1], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        Assignment assignment = assignmentRepository.findByNameAndDueDate(name, dueDate).orElse(null);
-
-        boolean isAssignmentAdded = gradeService.updateGradeWithAssignment(createdGradeId, assignment, gradeAddBindingModel);
-        return isAssignmentAdded;
+        return assignmentRepository.findByNameAndDueDate(name, dueDate).orElse(null);
     }
 }

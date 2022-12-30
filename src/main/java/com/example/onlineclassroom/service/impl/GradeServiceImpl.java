@@ -7,12 +7,15 @@ import com.example.onlineclassroom.model.entity.enumeration.GradeEnum;
 import com.example.onlineclassroom.model.service.GradeServiceModel;
 import com.example.onlineclassroom.model.view.GradeView;
 import com.example.onlineclassroom.repository.GradeRepository;
+import com.example.onlineclassroom.service.AssignmentService;
 import com.example.onlineclassroom.service.GradeService;
 import com.example.onlineclassroom.service.StudentService;
 import com.example.onlineclassroom.service.SubjectService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,21 +25,49 @@ public class GradeServiceImpl implements GradeService {
     private final GradeRepository gradeRepository;
     private final SubjectService subjectService;
     private final StudentService studentService;
+    private final AssignmentService assignmentService;
     private final ModelMapper modelMapper;
 
-    public GradeServiceImpl(GradeRepository gradeRepository, SubjectService subjectService, StudentService studentService, ModelMapper modelMapper) {
+    public GradeServiceImpl(GradeRepository gradeRepository, SubjectService subjectService, StudentService studentService, AssignmentService assignmentService, ModelMapper modelMapper) {
         this.gradeRepository = gradeRepository;
         this.subjectService = subjectService;
         this.studentService = studentService;
+        this.assignmentService = assignmentService;
         this.modelMapper = modelMapper;
     }
 
     @Override
-    public Long createGrade(GradeServiceModel serviceModel) {
+    public boolean createGrade(GradeServiceModel serviceModel) {
         Grade grade = modelMapper.map(serviceModel, Grade.class);
         grade.setStudent(studentService.getStudentById(serviceModel.getStudentId()));
         grade.setSubject(subjectService.getSubjectByName(serviceModel.getSubjectName()));
-        return gradeRepository.save(grade).getId();
+
+        if (serviceModel.getAssignmentNameAndDueDate() != null) {
+            Assignment assignment = assignmentService.getAssignmentByNameAndDueDateStr(serviceModel.getAssignmentNameAndDueDate());
+
+            boolean isExist = checkIfGradeAlreadyExists(assignment, serviceModel.getStudentId());
+            if (isExist){
+                return false;
+            }else {
+                grade.setAssignment(assignment);
+            }
+        }
+        gradeRepository.save(grade);
+        return true;
+    }
+    private boolean checkIfGradeAlreadyExists(Assignment assignment, Long studentId) {
+        //we check in DB if the student with this Id already has a grade for this assignment
+        Optional<Grade> gradeWithThisAssignment = gradeRepository.findByAssignmentAndStudentId(assignment, studentId);
+
+        //if grade for the student with this assignment already exists, we cannot add another grade to it
+        // so we have to terminate the creation of the grade ->
+        if (gradeWithThisAssignment.isPresent()) {
+            return true;
+        }
+
+        //if grade for the student with this id for this assignment doesnt exist in the DB
+        return false;
+
     }
 
     @Override
@@ -50,39 +81,19 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public boolean updateGradeWithAssignment(Long createdGradeId, Assignment assignment, GradeAddBindingModel gradeAddBindingModel) {
-        //this is the grade we are creating right now and to which we want to set the assignment
-        Grade gradeToAddAssignment = gradeRepository.findById(createdGradeId).orElse(null);
-
-        //we check in DB if the student with this Id already has a grade for this assignment
-        Optional<Grade> gradeWithThisAssignment = gradeRepository.findByAssignmentAndStudentId(assignment, gradeAddBindingModel.getStudentId());
-
-        //if grade for the student with this assignment already exists, we cannot add another grade to it
-        // so we have to terminate the updating of the grade we are creating right now ->
-        // it has already been created and in this method we are trying to update it but in this case we have to delete it altogether
-        if (gradeWithThisAssignment.isPresent()) {
-            gradeRepository.delete(gradeToAddAssignment);
-            return false;
-        }
-
-        //if grade for the student with this id for this assignment doesnt exist in the DB
-        //then we continue with our operation and we update the grade with the assignment
-        gradeToAddAssignment.setAssignment(assignment);
-        gradeRepository.save(gradeToAddAssignment);
-        return true;
-
-    }
-
-    @Override
     public List<GradeView> getGradeViewsByStudentIdAndSubjectId(Long studentId, Long subjectId) {
+        //returns gradeViews sorted by creation date
         List<GradeView> views = gradeRepository.findAllByStudentIdAndSubjectId(studentId, subjectId)
                 .stream()
+                .sorted(Comparator.comparing(Grade::getDateOfCreation))
                 .map(grade -> {
                     GradeView view = modelMapper.map(grade, GradeView.class);
                     view.setSubjectName(grade.getSubject().getName());
                     view.setStudentId(grade.getStudent().getId());
+                    view.setDateOfCreation(grade.getDateOfCreation().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
                     return view;
-                }).toList();
+                })
+                .toList();
 
         return views;
 
@@ -96,5 +107,11 @@ public class GradeServiceImpl implements GradeService {
                 .map(GradeEnum::getGradeNumber)
                 .map(Object::toString)
                 .collect(Collectors.joining(", "));
+    }
+
+    @Override
+    public boolean findGradesByAssignmentId(Long id) {
+        //if there are grades on this assignment, the method will return true
+        return !gradeRepository.findAllByAssignmentId(id).isEmpty();
     }
 }

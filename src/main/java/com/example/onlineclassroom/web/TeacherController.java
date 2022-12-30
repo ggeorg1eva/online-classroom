@@ -84,9 +84,16 @@ public class TeacherController {
     }
 
     @DeleteMapping("/assignments/delete/{id}")
-    public String deleteAssignmentById(@PathVariable Long id) {
-        assignmentService.deleteAssignmentById(id);
+    public String deleteAssignmentById(@PathVariable Long id, RedirectAttributes redirectAttributes, Model model) {
+        //if there are grades on this assignment, it cannot be deleted
+        boolean isAssignmentGraded = gradeService.findGradesByAssignmentId(id);
+        model.addAttribute("cannotDelete", false);
 
+        if (isAssignmentGraded){
+            redirectAttributes.addFlashAttribute("cannotDelete", true);
+            return "redirect:/teachers/my-assignments";
+        }
+        assignmentService.deleteAssignmentById(id);
         return "redirect:/teachers/my-assignments";
     }
 
@@ -135,11 +142,13 @@ public class TeacherController {
                                           RedirectAttributes redirectAttributes) {
 
         String principalEgn = userService.getUserEgnByUsername(principal.getUsername());
+        //needed for the redirect URl
+        Long studentSchoolClass = studentService.getSchoolClassIdByStudentId(stId);
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("gradeAddBindingModel", gradeAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.gradeAddBindingModel", bindingResult);
-            return "redirect:/teachers/grades";
+            return "redirect:/teachers/grades/classes/" + studentSchoolClass;
         }
 
         gradeAddBindingModel.setStudentId(stId);
@@ -150,26 +159,18 @@ public class TeacherController {
         //if this is not explicitly set to null, ModelMapper class sets it to the value found in studentId field
         serviceModel.setId(null);
 
-        //no matter if there is an assignment to the grade, we don't want to create the grade with it
-        //it will be added later to it, that is why this field is set to null:
-        serviceModel.setAssignmentNameAndDueDate(null);
-
-        //returns the id of the just created grade so that if it was for an assignment,
-        // this assignment can be added to it
-        Long createdGradeId = gradeService.createGrade(serviceModel);
-        //todo fix redirect path and combine the create and update methods in one action
-
-        if (!gradeAddBindingModel.getAssignmentNameAndDueDateString().equalsIgnoreCase("none")) {
-            boolean isAssignmentAdded = assignmentService.addAssignmentToGrade(gradeAddBindingModel, createdGradeId);
-            if (!isAssignmentAdded){
-                redirectAttributes.addFlashAttribute("assignmentNotAdded", true);
-
-                return "redirect:/teachers/grades/classes/{id}";
-            }
+        if (gradeAddBindingModel.getAssignmentNameAndDueDateString().equalsIgnoreCase("none")) {
+            serviceModel.setAssignmentNameAndDueDate(null);
         }
 
+        boolean isGradeCreated = gradeService.createGrade(serviceModel);
 
-        return "redirect:/teachers/classes";
+        if (!isGradeCreated){
+            redirectAttributes.addFlashAttribute("gradeExists", true);
+            return "redirect:/teachers/grades/classes/" + studentSchoolClass;
+        }
+
+        return "redirect:/teachers/grades/classes/" + studentSchoolClass;
     }
 
 }

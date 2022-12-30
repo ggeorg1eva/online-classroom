@@ -14,6 +14,5 @@ import java.util.Set;
 public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
     List<Assignment> findAllByTeacherEgn(String teacher_egn);
     List<Assignment> findAllByTeacherId(Long teacher_id);
-    //todo finish
     Optional<Assignment> findByNameAndDueDate(String name, LocalDate dueDate);
 }

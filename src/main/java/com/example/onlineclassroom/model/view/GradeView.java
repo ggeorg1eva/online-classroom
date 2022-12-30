@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class GradeView {
     private GradeEnum grade;
 
-    private LocalDateTime dateOfCreation;
+    private String dateOfCreation;
 
     private String subjectName;
 

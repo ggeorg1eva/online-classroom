@@ -66,6 +66,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Long getSchoolClassIdByStudentId(Long studentId) {
+        Student student = studentRepository.findById(studentId).orElse(null);
+
+        return student.getSchoolClass().getId();
+    }
+
+    @Override
     public Long getStudentIdByEgn(String egn) {
         return Objects.requireNonNull(studentRepository
                         .findByEgn(egn)

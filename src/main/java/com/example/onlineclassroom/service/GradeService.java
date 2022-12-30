@@ -10,13 +10,13 @@ import java.util.List;
 
 public interface GradeService {
 
-    Long createGrade(GradeServiceModel serviceModel);
+    boolean createGrade(GradeServiceModel serviceModel);
 
     GradeEnum getGradeEnumByAssignmentIdAndStudentEgn(Long assignmentId, String studentEgn);
-
-    boolean updateGradeWithAssignment(Long createdGradeId, Assignment assignment, GradeAddBindingModel gradeAddBindingModel);
 
     List<GradeView> getGradeViewsByStudentIdAndSubjectId(Long studentId, Long subjectId);
 
     String getGradesViewListAsString(List<GradeView> gradesBySubject);
+
+    boolean findGradesByAssignmentId(Long id);
 }

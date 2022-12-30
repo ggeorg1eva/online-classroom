@@ -4,6 +4,7 @@ import com.example.onlineclassroom.model.entity.User;
 import com.example.onlineclassroom.model.entity.UserRole;
 import com.example.onlineclassroom.model.entity.enumeration.UserRoleEnum;
 import com.example.onlineclassroom.model.service.UserServiceModel;
+import com.example.onlineclassroom.model.view.UserProfileView;
 import com.example.onlineclassroom.repository.UserRepository;
 import com.example.onlineclassroom.service.StudentService;
 import com.example.onlineclassroom.service.TeacherService;
@@ -87,5 +88,11 @@ public class UserServiceImpl implements UserService {
     public String getUserEgnByUsername(String username) {
        return Objects.requireNonNull(userRepository.findByUsername(username).orElse(null))
                 .getEgn();
+    }
+
+    @Override
+    public UserProfileView getUserViewFromUsername(String principalUsername) {
+        User user = userRepository.findByUsername(principalUsername).orElse(null);
+        return modelMapper.map(user, UserProfileView.class);
     }
 }

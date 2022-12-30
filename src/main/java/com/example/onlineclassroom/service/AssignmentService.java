@@ -1,6 +1,7 @@
 package com.example.onlineclassroom.service;
 
 import com.example.onlineclassroom.model.binding.GradeAddBindingModel;
+import com.example.onlineclassroom.model.entity.Assignment;
 import com.example.onlineclassroom.model.service.AssignmentServiceModel;
 import com.example.onlineclassroom.model.view.AssignmentViewStudent;
 import com.example.onlineclassroom.model.view.AssignmentViewTeacher;
@@ -14,9 +15,10 @@ public interface AssignmentService {
 
     void deleteAssignmentById(Long id);
 
-    List<AssignmentViewStudent> getAllAssignmentViewsByTeacherId(Long teacherId, String studentEgn);
+    List<AssignmentViewStudent> getAllAssignmentViewsByTeacherId(Long teacherId);
 
     List<String> getAllAssignmentsNameAndDueDateByTeacherEgn(String principalEgn);
 
-    boolean addAssignmentToGrade(GradeAddBindingModel gradeAddBindingModel, Long createdGradeId);
+    Assignment getAssignmentByNameAndDueDateStr(String str);
+
 }

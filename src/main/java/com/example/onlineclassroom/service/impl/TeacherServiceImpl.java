@@ -4,6 +4,8 @@ import com.example.onlineclassroom.model.entity.SchoolClass;
 import com.example.onlineclassroom.model.entity.Teacher;
 import com.example.onlineclassroom.model.view.SchoolClassView;
 import com.example.onlineclassroom.model.view.SubjectView;
+import com.example.onlineclassroom.model.view.TeacherProfileView;
+import com.example.onlineclassroom.model.view.UserProfileView;
 import com.example.onlineclassroom.repository.TeacherRepository;
 import com.example.onlineclassroom.service.SchoolClassService;
 import com.example.onlineclassroom.service.SubjectService;
@@ -74,4 +76,14 @@ public class TeacherServiceImpl implements TeacherService {
         return Objects.requireNonNull(teacherRepository.findBySubjectIdAndClassesContaining(subjectId, schoolClass).orElse(null)).getId();
     }
 
+    @Override
+    public TeacherProfileView getTeacherProfileInfoFromUserView(UserProfileView userView) {
+        Teacher teacher = teacherRepository.findByEgn(userView.getEgn()).orElse(null);
+        TeacherProfileView teacherView = modelMapper.map(teacher, TeacherProfileView.class);
+        teacherView.setRole(userView.getRole());
+        teacherView.setUsername(userView.getUsername());
+        teacherView.setEmail(userView.getEmail());
+
+        return teacherView;
+    }
 }

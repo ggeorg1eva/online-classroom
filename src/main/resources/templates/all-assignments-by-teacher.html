@@ -8,7 +8,12 @@
 <!-- navigation -->
 <nav th:replace="commons::nav"></nav>
 
-<table class="table table-bordered m-2" style="width: 40rem;">
+<div th:if="${cannotDelete}">
+    <div class="alert alert-danger">
+        <span th:text="|You cannot delete this assignment because you have already graded students on it!|"></span>
+    </div>
+</div>
+<table class="custom-tbl table table-bordered m-2" style="width: 40rem;">
     <caption class="caption-top text-center">Assignments</caption>
     <thead>
     <tr class="text-center">

@@ -52,11 +52,11 @@
 #login-form {
     margin: 10% 25%;
 }
-
-tbody{
+/*todo see if you dont want the table from table.css*/
+.custom-tbl tbody{
     background-color: #ffeaa0;
 }
-thead{
+.custom-tbl thead{
     background-color: #ffc800;
 }
 .table > :not(:first-child) {
@@ -92,4 +92,16 @@ thead{
 .table-link{
     text-decoration: none;
     color: #614c00;
+}
+
+/*profile card*/
+.gradient-custom {
+    /* fallback for old browsers */
+    background: #f6d365;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
 }

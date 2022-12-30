@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -30,4 +31,17 @@ public class Assignment extends BaseEntity{
 
     @ManyToMany
     private Set<SchoolClass> classes;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Assignment that = (Assignment) o;
+        return Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(creationDate, that.creationDate) && Objects.equals(dueDate, that.dueDate) && Objects.equals(teacher, that.teacher) && Objects.equals(classes, that.classes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, creationDate, dueDate, teacher, classes);
+    }
 }

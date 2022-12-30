@@ -15,6 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class AssignmentViewStudent extends AssignmentView{
+    private Long id;
     private String teacherFullName;
     private String subjectName;
     private GradeEnum grade;

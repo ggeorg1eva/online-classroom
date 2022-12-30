@@ -16,4 +16,5 @@ public interface GradeRepository extends JpaRepository<Grade, Long> {
     Optional<Grade> findByDateOfCreation(LocalDateTime dateOfCreation);
     Optional<Grade> findByAssignmentIdAndStudentEgn(Long assignment_id, String student_egn);
     Optional<Grade> findByAssignmentAndStudentId(Assignment assignment, Long student_id);
+    List<Grade> findAllByAssignmentId(Long assignment_id);
 }

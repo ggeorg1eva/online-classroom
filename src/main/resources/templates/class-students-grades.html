@@ -7,9 +7,9 @@
 <body>
 <!-- navigation -->
 <nav th:replace="commons::nav"></nav>
-
-
-<table class="table table-bordered m-2" style="width: 40rem;">
+<!--todo fix front end of small and in general-->
+<small th:if="${gradeExists}" th:text="|This student already has a grade for this assignment|" class="bg-danger"></small>
+<table class="custom-tbl table table-bordered m-2" style="width: 40rem;">
     <caption class="caption-top text-center">Student</caption>
     <thead>
     <tr class="text-center">

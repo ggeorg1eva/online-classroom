@@ -15,5 +15,7 @@ public interface StudentService {
 
     Long getSchoolClassIdByStudentEgn(String studentEgn);
 
+    Long getSchoolClassIdByStudentId(Long studentId);
+
     Long getStudentIdByEgn(String egn);
 }
