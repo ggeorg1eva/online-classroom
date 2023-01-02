@@ -2,6 +2,7 @@ package com.example.onlineclassroom.service.impl;
 
 import com.example.onlineclassroom.model.entity.SchoolClass;
 import com.example.onlineclassroom.model.entity.Teacher;
+import com.example.onlineclassroom.model.entity.enumeration.ClassNameEnum;
 import com.example.onlineclassroom.model.view.SchoolClassView;
 import com.example.onlineclassroom.model.view.SubjectView;
 import com.example.onlineclassroom.model.view.TeacherProfileView;
@@ -83,7 +84,17 @@ public class TeacherServiceImpl implements TeacherService {
         teacherView.setRole(userView.getRole());
         teacherView.setUsername(userView.getUsername());
         teacherView.setEmail(userView.getEmail());
-
+        teacherView.setClassNamesAsString(getTeacherClassesAsString(teacher));
         return teacherView;
+    }
+
+    private String getTeacherClassesAsString(Teacher teacher) {
+        return String.join(", ",
+                teacher.getClasses()
+                        .stream()
+                        .map(SchoolClass::getName)
+                        .map(ClassNameEnum::name)
+                        .map(name -> name.replace('_', ' '))
+                        .collect(Collectors.toSet()));
     }
 }

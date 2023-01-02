@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="commons::head">
+</head>
+<body>
+<!-- navigation -->
+<nav th:replace="commons::nav"></nav>
+
+
+<!--/*@thymesVar id="editUsernameBindingModel" type="com.example.onlineclassroom.model.binding.EditEmailBindingModel"*/-->
+<form th:action="@{/users/edit-profile/email}" th:method="put" th:object="${editEmailBindingModel}" class="register-form mt-3">
+  <div class="form-group">
+    <label class="p-2" for="newEmail">New Email</label>
+    <input th:field="*{newEmail}" th:errorclass="is-invalid"
+           th:classappend="${#fields.hasErrors('newEmail')}? 'bg-warning'" type="text" class="form-control m-2" id="newEmail" placeholder="Enter new email">
+    <small id="newEmailIncorrect" class="invalid-feedback bg-warning text-dark rounded m-2 p-2">
+      You should enter a valid email
+    </small>
+  </div>
+
+  <div class="d-flex justify-content-center m-2">
+    <button type="submit" class="btn">Submit</button>
+  </div>
+
+
+</form>
+
+
+<!-- footer -->
+<footer th:replace="commons::footer"></footer>
+<!-- scripts -->
+<div th:replace="commons::scripts"></div>
+</body>
+</html>

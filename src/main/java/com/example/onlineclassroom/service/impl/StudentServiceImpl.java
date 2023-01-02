@@ -3,7 +3,9 @@ package com.example.onlineclassroom.service.impl;
 import com.example.onlineclassroom.model.entity.Student;
 import com.example.onlineclassroom.model.entity.enumeration.ClassNameEnum;
 import com.example.onlineclassroom.model.entity.enumeration.GradeEnum;
+import com.example.onlineclassroom.model.view.StudentProfileView;
 import com.example.onlineclassroom.model.view.StudentView;
+import com.example.onlineclassroom.model.view.UserProfileView;
 import com.example.onlineclassroom.repository.StudentRepository;
 import com.example.onlineclassroom.service.GradeService;
 import com.example.onlineclassroom.service.SchoolClassService;
@@ -78,5 +80,19 @@ public class StudentServiceImpl implements StudentService {
                         .findByEgn(egn)
                         .orElse(null))
                 .getId();
+    }
+
+    @Override
+    public StudentProfileView getStudentProfileInfoFromUserView(UserProfileView userView) {
+        Student student = studentRepository.findByEgn(userView.getEgn()).orElse(null);
+        StudentProfileView studentView = modelMapper.map(student, StudentProfileView.class);
+
+        studentView.setRole(userView.getRole());
+        studentView.setUsername(userView.getUsername());
+        studentView.setEmail(userView.getEmail());
+        studentView.setSchoolClass(student.getSchoolClass().getName().name().replace('_', ' '));
+
+
+        return studentView;
     }
 }

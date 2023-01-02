@@ -1,5 +1,8 @@
 package com.example.onlineclassroom.service.impl;
 
+import com.example.onlineclassroom.model.binding.EditEmailBindingModel;
+import com.example.onlineclassroom.model.binding.EditPasswordBindingModel;
+import com.example.onlineclassroom.model.binding.EditUsernameBindingModel;
 import com.example.onlineclassroom.model.entity.User;
 import com.example.onlineclassroom.model.entity.UserRole;
 import com.example.onlineclassroom.model.entity.enumeration.UserRoleEnum;
@@ -65,14 +68,14 @@ public class UserServiceImpl implements UserService {
 
         if (serviceModel.getUserRole().equals(UserRoleEnum.TEACHER)) {
             boolean isTeacherRegistered = teacherService.registerTeacher(serviceModel.getEgn());
-            if (!isTeacherRegistered){
+            if (!isTeacherRegistered) {
                 return "teacher-not-found";
             }
         }
 
         if (serviceModel.getUserRole().equals(UserRoleEnum.STUDENT)) {
             boolean isTeacherRegistered = studentService.registerStudent(serviceModel.getEgn());
-            if (!isTeacherRegistered){
+            if (!isTeacherRegistered) {
                 return "student-not-found";
             }
         }
@@ -86,13 +89,42 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String getUserEgnByUsername(String username) {
-       return Objects.requireNonNull(userRepository.findByUsername(username).orElse(null))
+        return Objects.requireNonNull(userRepository.findByUsername(username).orElse(null))
                 .getEgn();
     }
 
     @Override
     public UserProfileView getUserViewFromUsername(String principalUsername) {
         User user = userRepository.findByUsername(principalUsername).orElse(null);
-        return modelMapper.map(user, UserProfileView.class);
+        UserProfileView view = modelMapper.map(user, UserProfileView.class);
+
+        view.setRole(user.getUserRole().getRole().name());
+        return view;
+
+    }
+
+    @Override
+    public void editUsername(String principalEgn, EditUsernameBindingModel editUsernameBindingModel) {
+        User user = getUserByEgn(principalEgn);
+        user.setUsername(editUsernameBindingModel.getNewUsername());
+        userRepository.save(user);
+    }
+
+    @Override
+    public void editEmail(String principalEgn, EditEmailBindingModel editEmailBindingModel) {
+        User user = getUserByEgn(principalEgn);
+        user.setEmail(editEmailBindingModel.getNewEmail());
+        userRepository.save(user);
+    }
+
+    @Override
+    public void editPassword(String principalEgn, EditPasswordBindingModel editPasswordBindingModel) {
+        User user = getUserByEgn(principalEgn);
+        user.setPassword(editPasswordBindingModel.getNewPassword());
+        userRepository.save(user);
+    }
+
+    private User getUserByEgn(String egn){
+        return userRepository.findByEgn(egn).orElse(null);
     }
 }

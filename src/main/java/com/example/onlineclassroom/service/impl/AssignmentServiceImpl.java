@@ -30,7 +30,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     private final SchoolClassService schoolClassService;
     private final ModelMapper modelMapper;
 
-    public AssignmentServiceImpl(AssignmentRepository assignmentRepository, TeacherService teacherService, SchoolClassService schoolClassService,  ModelMapper modelMapper) {
+    public AssignmentServiceImpl(AssignmentRepository assignmentRepository, TeacherService teacherService, SchoolClassService schoolClassService, ModelMapper modelMapper) {
         this.assignmentRepository = assignmentRepository;
         this.teacherService = teacherService;
         this.schoolClassService = schoolClassService;
@@ -43,16 +43,21 @@ public class AssignmentServiceImpl implements AssignmentService {
                 .stream()
                 .map(assignment -> {
                     AssignmentViewTeacher view = modelMapper.map(assignment, AssignmentViewTeacher.class);
-                    Set<ClassNameEnum> classNameEnums = assignment.getClasses().stream()
-                            .map(SchoolClass::getName).collect(Collectors.toSet());
-
-                    view.setClasses(classNameEnums);
-
-                    view.setClassNamesAsString(String.join(", ", view.getClasses().stream().map(ClassNameEnum::name).collect(Collectors.toSet())));
+                    view.setClassNamesAsString(getClassNamesAsStringByAssignment(assignment));
                     return view;
                 }).collect(Collectors.toList());
 
         return views;
+    }
+
+    private String getClassNamesAsStringByAssignment(Assignment assignment) {
+        return String.join(", ",
+                assignment.getClasses()
+                        .stream()
+                        .map(SchoolClass::getName)
+                        .map(ClassNameEnum::name)
+                        .map(name -> name.replace('_', ' '))
+                        .collect(Collectors.toSet()));
     }
 
     @Override
@@ -91,7 +96,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public List<String> getAllAssignmentsNameAndDueDateByTeacherEgn(String principalEgn) {
-       return assignmentRepository.findAllByTeacherEgn(principalEgn)
+        return assignmentRepository.findAllByTeacherEgn(principalEgn)
                 .stream()
                 .map(assignment -> {
                     return assignment.getName().concat(": " + assignment.getDueDate());

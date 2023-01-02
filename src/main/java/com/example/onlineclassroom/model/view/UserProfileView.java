@@ -12,7 +12,7 @@ public class UserProfileView {
 
     private String email;
 
-    private UserRoleEnum role;
+    private String role;
 
     private String firstName;
 

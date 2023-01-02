@@ -8,4 +8,5 @@ import lombok.Setter;
 @Setter
 public class TeacherProfileView extends UserProfileView {
     private String subjectName;
+    private String classNamesAsString;
 }
