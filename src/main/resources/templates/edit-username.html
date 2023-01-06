@@ -10,6 +10,7 @@
 
 
 <!--/*@thymesVar id="editUsernameBindingModel" type="com.example.onlineclassroom.model.binding.EditUsernameBindingModel"*/-->
+<div class="edit-cont">
 <form th:action="@{/users/edit-profile/username}" th:method="put" th:object="${editUsernameBindingModel}" class="register-form mt-3">
   <div class="form-group">
     <label class="p-2" for="username">New Username</label>
@@ -26,7 +27,7 @@
 
 
 </form>
-
+</div>
 
 <!-- footer -->
 <footer th:replace="commons::footer"></footer>

@@ -9,17 +9,20 @@
 <nav th:replace="commons::nav"></nav>
 
 <!-- bootstrap list template: https://bootstrapious.com/p/bootstrap-list -->
-<div class="card shadow mb-4">
-    <div class="card-body p-5">
-        <h4 class="mb-4">Classes I teach</h4>
-        <!-- List with bullets -->
-        <ul class="list-bullets">
-            <li th:each="c : ${classes}" class="mb-2">
-                <a th:text="${c.name.name.replace('_', ' ')}" th:href="@{/teachers/grades/classes/{id} (id = ${c.id})}"></a>
-            </li>
-        </ul>
+<div class="card-container">
+    <div class="card shadow mb-4 ">
+        <div class="card-body p-5">
+            <h4 class="mb-4">Classes I teach</h4>
+            <!-- List with bullets -->
+            <ul class="list-bullets">
+                <li th:each="c : ${classes}" class="mb-2">
+                    <a th:text="${c.name.name.replace('_', ' ')}" th:href="@{/teachers/grades/classes/{id} (id = ${c.id})}"></a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
+
 
 <!-- footer -->
 <footer th:replace="commons::footer"></footer>

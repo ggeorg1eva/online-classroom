@@ -9,7 +9,8 @@
 <nav th:replace="commons::nav"></nav>
 <!--todo fix front end of small and in general-->
 <small th:if="${gradeExists}" th:text="|This student already has a grade for this assignment|" class="bg-danger"></small>
-<table class="custom-tbl table table-bordered m-2" style="width: 40rem;">
+<div class="gr-cont container">
+<table class="my-table table table-bordered m-2" style="width: 40rem;">
     <caption class="caption-top text-center">Student</caption>
     <thead>
     <tr class="text-center">
@@ -55,7 +56,7 @@
     </tr>
     </tbody>
 </table>
-
+</div>
 
 <!-- footer -->
 <footer th:replace="commons::footer"></footer>

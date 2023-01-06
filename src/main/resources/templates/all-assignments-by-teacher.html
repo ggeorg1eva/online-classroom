@@ -13,35 +13,38 @@
         <span th:text="|You cannot delete this assignment because you have already graded students on it!|"></span>
     </div>
 </div>
-<table class="custom-tbl table table-bordered m-2" style="width: 40rem;">
-    <caption class="caption-top text-center">Assignments</caption>
-    <thead>
-    <tr class="text-center">
-        <th scope="col">Name</th>
-        <th scope="col">Description</th>
-        <th scope="col">Date of creation</th>
-        <th scope="col">Due date</th>
-        <th scope="col">Classes</th>
-        <th scope="col"></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="text-center" th:each="a : ${assignments}" th:object="${a}">
-        <td th:text="*{name}"></td>
-        <td th:unless="*{description == null}" th:text="*{description}"></td>
-        <td th:text="*{creationDate}"></td>
-        <td th:text="*{dueDate}"></td>
-        <td th:text="*{classNamesAsString}"></td>
-        <td>
-            <div>
-                <form th:action="@{/teachers/assignments/delete/{id} (id = *{id})}" th:method="delete">
-                    <input class="btn" type="submit" value="Delete">
-                </form>
-            </div>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div class="my-container">
+    <table class="custom-tbl table table-bordered m-2 my-table" style="width: 40rem;">
+        <caption class="caption-top text-center">Assignments</caption>
+        <thead>
+        <tr class="text-center">
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Date of creation</th>
+            <th scope="col">Due date</th>
+            <th scope="col">Classes</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="text-center" th:each="a : ${assignments}" th:object="${a}">
+            <td th:text="*{name}"></td>
+            <td th:unless="*{description == null}" th:text="*{description}"></td>
+            <td th:text="*{creationDate}"></td>
+            <td th:text="*{dueDate}"></td>
+            <td th:text="*{classNamesAsString}"></td>
+            <td>
+                <div>
+                    <form th:action="@{/teachers/assignments/delete/{id} (id = *{id})}" th:method="delete">
+                        <input class="btn" type="submit" value="Delete">
+                    </form>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
 
 <!-- footer -->
 <footer th:replace="commons::footer"></footer>

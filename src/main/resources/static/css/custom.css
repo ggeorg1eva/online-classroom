@@ -6,11 +6,17 @@
     font-weight: 700;
 }
 
-/*nav + login button*/
+.footer{
+    margin-top: 50px;
+}
+
+/*nav + logout button*/
 #mainNav .nav-link {
     background-color: #ffc800;
 }
-
+#mainNav{
+    margin-bottom: 20px;
+}
 .logout-btn {
     background-color: #ffc800;
     border: none;
@@ -38,6 +44,9 @@
 }
 
 /*register*/
+.register-container{
+    padding: 20px;
+}
 .register-form {
     margin-top: 10%;
     margin-left: 25%;
@@ -52,18 +61,18 @@
 #login-form {
     margin: 10% 25%;
 }
-/*todo see if you dont want the table from table.css*/
-.custom-tbl tbody{
-    background-color: #ffeaa0;
-}
-.custom-tbl thead{
-    background-color: #ffc800;
-}
-.table > :not(:first-child) {
-    border-width: 1px 1px;
-    border-color: #614c00;
-    color: #614c00;
-}
+
+/*.custom-tbl tbody{*/
+/*    background-color: #ffeaa0;*/
+/*}*/
+/*.custom-tbl thead{*/
+/*    background-color: #ffc800;*/
+/*}*/
+/*.table > :not(:first-child) {*/
+/*    border-width: 1px 1px;*/
+/*    border-color: #614c00;*/
+/*    color: #614c00;*/
+/*}*/
 /* classes-grades list */
 .list-bullets {
     list-style: none;
@@ -110,3 +119,32 @@
     color: black;
     text-decoration: none;
 }
+/*all-assignments-by-teacher*/
+.my-container{
+    height: 450px;
+    margin-left: 23%;
+    margin-right: 20%;
+}
+/*create new assignment page*/
+.create-assign-form{
+    margin-left: 20%;
+    margin-right: 20%;
+}
+/*teacher classes*/
+.card-container{
+    margin-left: 20%;
+    margin-right: 20%;
+    height: 450px;
+}
+
+/*class-student-grades*/
+.gr-cont{
+    margin-left: 23%;
+    margin-right: 20%;
+}
+/*edit email, username, password*/
+.edit-cont{
+ margin-top: 50px;
+    height: 450px;
+}
+

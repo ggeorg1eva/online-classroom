@@ -112,12 +112,6 @@ public class UserController {
         return "my-profile";
     }
 
-    @GetMapping("/edit-profile")
-    public String editProfile(){
-        return "edit-profile";
-    }
-
-
     @GetMapping("/edit-profile/username")
     public String editUsername(){
         return "edit-username";

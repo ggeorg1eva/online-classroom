@@ -1,7 +1,7 @@
 # Online classroom for a school
 ## Introduction
 This is a Spring Boot application which creates a virtual classroom for one school. It has three main roles - admin, teacher and student.
-Only the admin can add/delete students and teachers to the database. The other two can register to the website only if they are already on the list.
+Only the admin can add/delete students and teachers to the database (This role is yet to be developed). The other two can register to the website only if they are already on the list.
 Users with the 'teacher' role can add/delete assignments, give grades, make statistics about students.
 Users with the 'student' role can view/complete their assignments, see their grades, write messages to their teachers.
 

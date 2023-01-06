@@ -9,74 +9,76 @@
 <nav th:replace="commons::nav"></nav>
 <!-- registration form -->
 <!--/*@thymesVar id="userRegisterBindingModel" type="com.example.onlineclassroom.model.binding.UserRegisterBindingModel"*/-->
-<form th:action="@{/users/register}" th:method="post" th:object="${userRegisterBindingModel}" class="register-form mt-3">
-    <small th:if="${userExists}" class="bg-danger text-light
+<div class="container register-container">
+    <form th:action="@{/users/register}" th:method="post" th:object="${userRegisterBindingModel}" class="register-form mt-3">
+        <small th:if="${userExists}" class="bg-danger text-light
     rounded m-2 p-2">User with such username, email or egn already exists</small>
-    <small th:if="${teacherNotFound}"
-           class="bg-danger text-light rounded m-2 p-2">There is no teacher with this EGN in our school</small>
-    <small th:if="${studentNotFound}"
-           class="bg-danger text-light rounded m-2 p-2">There is no student with this EGN in our school</small>
-    <div class="form-group">
-        <label class="p-2" for="username">Username</label>
-        <input th:field="*{username}" th:errorclass="is-invalid"
-               th:classappend="${#fields.hasErrors('username')}? 'bg-warning'" type="text" class="form-control m-2" id="username" placeholder="Username">
-        <small id="usernameIncorrect" class="invalid-feedback bg-warning text-dark rounded m-2 p-2">
-            Your username must be between 3 and 20 characters long
-        </small>
-    </div>
-    <div class="form-group">
-        <label class="p-2" for="email">Email address</label>
-        <input th:field="*{email}"
-               th:classappend="${#fields.hasErrors('email')}? 'bg-warning'" type="email" th:errorclass="is-invalid" class="form-control m-2" id="email" placeholder="name@example.com">
-        <small id="emailIncorrect" class="invalid-feedback bg-warning text-dark rounded m-2 p-2">
-            You must enter a valid email
-        </small>
-    </div>
-    <div class="form-group">
-        <label class="p-2" for="egn">EGN</label>
-        <input th:field="*{egn}"
-               th:classappend="${#fields.hasErrors('egn')}? 'bg-warning'" type="text" th:errorclass="is-invalid" class="form-control m-2" id="egn" placeholder="EGN">
-        <small id="egnIncorrect" class="invalid-feedback bg-warning text-dark rounded m-2 p-2">
-            You must enter a valid EGN
-        </small>
-    </div>
-    <div class="form-group">
-        <label class="p-2" for="password">Password</label>
-        <input th:field="*{password}"
-               th:classappend="${#fields.hasErrors('password')}? 'bg-warning'"
-               type="password" th:errorclass="is-invalid" class="form-control m-2" id="password" placeholder="Password">
-        <small id="passIncorrect" class="invalid-feedback bg-warning text-dark rounded m-2 p-2">
-            Your password must be between 4 and 15 characters long
-        </small>
-    </div>
-    <div class="form-group">
-        <label class="p-2" for="confirmPassword">Confirm password</label>
-        <input th:field="*{confirmPassword}"
-               th:classappend="${#fields.hasErrors('confirmPassword')}? 'bg-warning'" type="password" th:errorclass="is-invalid" class="form-control m-2" id="confirmPassword"
-               placeholder="Confirm password">
-        <small id="confirmPassIncorrect" class="invalid-feedback bg-warning text-dark rounded m-2 p-2">
-            Your password must be between 4 and 15 characters long
-        </small>
-    </div>
-
-    <div class="form-group">
-        <div class="col-auto my-1 p-2">
-            <label class="mb-2 pb-2" for="roles">Are you a teacher or a student?</label>
-            <br>
-            <select th:field="*{userRole}" th:errorclass="is-invalid" class="custom-select mr-sm-2" id="roles">
-                <option th:value="Choose" selected>Choose your role</option>
-                <option th:unless="${#strings.equalsIgnoreCase(r.name(), 'ADMIN')}"
-                        th:each="r : ${T (com.example.onlineclassroom.model.entity.enumeration.UserRoleEnum).values()}"
-                        th:value="${r}" th:text="${r.name().substring(0,1) + r.name().substring(1).toLowerCase()}"> </option>
-            </select>
+        <small th:if="${teacherNotFound}"
+               class="bg-danger text-light rounded m-2 p-2">There is no teacher with this EGN in our school</small>
+        <small th:if="${studentNotFound}"
+               class="bg-danger text-light rounded m-2 p-2">There is no student with this EGN in our school</small>
+        <div class="form-group">
+            <label class="p-2" for="username">Username</label>
+            <input th:field="*{username}" th:errorclass="is-invalid"
+                   th:classappend="${#fields.hasErrors('username')}? 'bg-warning'" type="text" class="form-control m-2" id="username" placeholder="Username">
+            <small id="usernameIncorrect" class="invalid-feedback bg-warning text-dark rounded m-2 p-2">
+                Your username must be between 3 and 20 characters long
+            </small>
         </div>
-    </div>
+        <div class="form-group">
+            <label class="p-2" for="email">Email address</label>
+            <input th:field="*{email}"
+                   th:classappend="${#fields.hasErrors('email')}? 'bg-warning'" type="email" th:errorclass="is-invalid" class="form-control m-2" id="email" placeholder="name@example.com">
+            <small id="emailIncorrect" class="invalid-feedback bg-warning text-dark rounded m-2 p-2">
+                You must enter a valid email
+            </small>
+        </div>
+        <div class="form-group">
+            <label class="p-2" for="egn">EGN</label>
+            <input th:field="*{egn}"
+                   th:classappend="${#fields.hasErrors('egn')}? 'bg-warning'" type="text" th:errorclass="is-invalid" class="form-control m-2" id="egn" placeholder="EGN">
+            <small id="egnIncorrect" class="invalid-feedback bg-warning text-dark rounded m-2 p-2">
+                You must enter a valid EGN
+            </small>
+        </div>
+        <div class="form-group">
+            <label class="p-2" for="password">Password</label>
+            <input th:field="*{password}"
+                   th:classappend="${#fields.hasErrors('password')}? 'bg-warning'"
+                   type="password" th:errorclass="is-invalid" class="form-control m-2" id="password" placeholder="Password">
+            <small id="passIncorrect" class="invalid-feedback bg-warning text-dark rounded m-2 p-2">
+                Your password must be between 4 and 15 characters long
+            </small>
+        </div>
+        <div class="form-group">
+            <label class="p-2" for="confirmPassword">Confirm password</label>
+            <input th:field="*{confirmPassword}"
+                   th:classappend="${#fields.hasErrors('confirmPassword')}? 'bg-warning'" type="password" th:errorclass="is-invalid" class="form-control m-2" id="confirmPassword"
+                   placeholder="Confirm password">
+            <small id="confirmPassIncorrect" class="invalid-feedback bg-warning text-dark rounded m-2 p-2">
+                Your password must be between 4 and 15 characters long
+            </small>
+        </div>
+
+        <div class="form-group">
+            <div class="col-auto my-1 p-2">
+                <label class="mb-2 pb-2" for="roles">Are you a teacher or a student?</label>
+                <br>
+                <select th:field="*{userRole}" th:errorclass="is-invalid" class="custom-select mr-sm-2" id="roles">
+                    <option th:value="Choose" selected>Choose your role</option>
+                    <option th:unless="${#strings.equalsIgnoreCase(r.name(), 'ADMIN')}"
+                            th:each="r : ${T (com.example.onlineclassroom.model.entity.enumeration.UserRoleEnum).values()}"
+                            th:value="${r}" th:text="${r.name().substring(0,1) + r.name().substring(1).toLowerCase()}"> </option>
+                </select>
+            </div>
+        </div>
 
 
-    <div class="d-flex justify-content-center m-2">
-        <button type="submit" class="btn">Register</button>
-    </div>
-</form>
+        <div class="d-flex justify-content-center m-2">
+            <button type="submit" class="btn">Register</button>
+        </div>
+    </form>
+</div>
 
 
 <!-- footer -->

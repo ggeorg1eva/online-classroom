@@ -1,0 +1,39 @@
+body{
+    margin-top:20px;
+    background:#FAFAFA;
+
+}
+.order-card {
+    color: #fff;
+    background: linear-gradient(135deg,#ffc800,#ffc8001a);
+    height: 90%;
+}
+
+.card {
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+    box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+    border: none;
+    margin-bottom: 30px;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.card .card-block {
+    padding: 25px;
+}
+
+.order-card i {
+    font-size: 26px;
+}
+
+.my-heading{
+    color: #a77500;
+}
+.container{
+    margin: 20px;
+}
+.contact-cont{
+    height: 450px;
+    margin-left: 15%;
+}

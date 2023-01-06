@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Agency - Start Bootstrap Theme</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/styles.css" rel="stylesheet"/>
+    <link href="/css/custom.css" rel="stylesheet"/>
+    <link href="/css/contacts.css" rel="stylesheet"/>
+</head>
+<body>
+<!-- navigation -->
+<nav th:replace="commons::nav"></nav>
+<div class="container contact-cont">
+    <div class="row">
+        <div class="col-md-4 col-xl-3">
+            <div class="card order-card">
+                <div class="card-block">
+                    <h5 class="my-heading m-b-20">Phone number</h5>
+                    <h6 class="text-right"><i class="fa-solid fa-phone"></i><span> 0878002233 - headmaster</span></h6>
+                    <h6 class="text-right"><i class="fa-solid fa-phone"></i><span> 0878223344 - accounting</span></h6>
+                    <h6 class="text-right"><i class="fa-solid fa-phone"></i><span> 0878556677 - dormitory</span></h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xl-3">
+            <div class="card order-card">
+                <div class="card-block">
+                    <h5 class="my-heading m-b-20">Email</h5>
+                    <h6 class="text-right"><i class="fa-regular fa-envelope"></i><span> myschool@gmail.com - official email</span></h6>
+                    <h6 class="text-right"><i class="fa-regular fa-envelope"></i><span> council@gmail.com - student's council</span></h6>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xl-3">
+            <div class="card order-card">
+                <div class="card-block">
+                    <h5 class="my-heading m-b-20">Location</h5>
+                    <h6 class="text-right"><i class="fa-solid fa-location-dot"></i><span> 55 My Street Blvd</span></h6>
+                </div>
+            </div>
+        </div>
+
+</div>
+
+</div>
+<!-- footer -->
+<footer th:replace="commons::footer"></footer>
+<!-- scripts -->
+<div th:replace="commons::scripts"></div>
+</body>
+</html>

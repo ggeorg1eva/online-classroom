@@ -32,7 +32,7 @@ public class SecurityConfiguration{
                 .antMatchers("/teachers/my-assignments", "/teachers/assignments/create", "/teachers/assignments/delete/{id}",
                         "/teachers/classes", "/teachers/grades/classes/{id}", "/teachers/grades/add/{stId}").hasRole(UserRoleEnum.TEACHER.name())
                 .antMatchers("/students/my-subjects", "/students/my-subjects/{id}/assignments", "/students/my-subjects/{id}/grades").hasRole(UserRoleEnum.STUDENT.name())
-                .antMatchers("/", "/users/login", "/users/register").permitAll()
+                .antMatchers("/", "/users/login", "/users/register", "/contacts").permitAll()
                 .anyRequest().authenticated()
             .and()
                 .formLogin()
