@@ -25,15 +25,17 @@ public class StudentController {
     private final TeacherService teacherService;
     private final AssignmentService assignmentService;
     private final GradeService gradeService;
+    private final SubjectService subjectService;
     private final ModelMapper modelMapper;
 
-    public StudentController(StudentService studentService, UserService userService, SchoolClassService schoolClassService, TeacherService teacherService, AssignmentService assignmentService, GradeService gradeService, ModelMapper modelMapper) {
+    public StudentController(StudentService studentService, UserService userService, SchoolClassService schoolClassService, TeacherService teacherService, AssignmentService assignmentService, GradeService gradeService, SubjectService subjectService, ModelMapper modelMapper) {
         this.studentService = studentService;
         this.userService = userService;
         this.schoolClassService = schoolClassService;
         this.teacherService = teacherService;
         this.assignmentService = assignmentService;
         this.gradeService = gradeService;
+        this.subjectService = subjectService;
         this.modelMapper = modelMapper;
     }
 
@@ -64,6 +66,7 @@ public class StudentController {
                 .peek(view -> view.setGrade(gradeService.getGradeEnumByAssignmentIdAndStudentEgn(view.getId(), studentEgn)))
                 .collect(Collectors.toList());
 
+        model.addAttribute("subName", subjectService.getSubjectNameById(id));
         model.addAttribute("assignments", assignments);
         return "assignments-by-subject";
     }
@@ -76,6 +79,7 @@ public class StudentController {
         List<GradeView> grades = gradeService.getGradeViewsByStudentIdAndSubjectId(studentId, id);
 
         model.addAttribute("grades", grades);
+        model.addAttribute("subName", subjectService.getSubjectNameById(id));
         return "grades-by-subject";
     }
 }

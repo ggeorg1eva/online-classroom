@@ -24,9 +24,9 @@
 <body>
 <nav th:replace="commons::nav"></nav>
 
-
-<table class="my-table">
-    <h1 > header</h1>
+<div class="my-cont">
+<table class="my-table table table-bordered">
+    <caption class="caption-top text-center" th:text="|${subName} Grades|">Grades</caption>
     <thead>
     <tr>
         <th>Date of creation</th>
@@ -38,21 +38,14 @@
         <td th:text="*{dateOfCreation}"></td>
         <td th:text="*{grade.getGradeNumber()}">AUSTRALIAN COMPANY</td>
     </tr>
+    <tr th:if="${#lists.isEmpty(grades)}">
+        <td th:text="|You have no grades in ${subName} yet|"></td>
+    </tr>
     </tbody>
 </table>
 </div>
 
 <footer th:replace="commons::footer"></footer>
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="js/scripts.js"></script>
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-<!-- * *                               SB Forms JS                               * *-->
-<!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-
-<script src="js/table.js"></script>
+<div th:replace="commons::scripts"></div>
 </body>
 </html>
