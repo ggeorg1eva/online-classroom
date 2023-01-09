@@ -21,7 +21,7 @@
     background-color: #ffc800;
     border: none;
     /* font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"!important; */
-    font-weight: normal !important;
+    /*font-weight: normal !important;*/
     font-size: 0.95rem !important;
     color: #fff !important;
     letter-spacing: 0.0625em !important;
@@ -142,6 +142,15 @@
     margin-left: 23%;
     margin-right: 20%;
 }
+.grade-exist{
+    border: 1px solid red;
+    color: red;
+    border-radius: 100%;
+    padding: 15px;
+    text-align: center;
+    background-color: #ff00003d;
+    margin: 12%;
+}
 /*edit email, username, password*/
 .edit-cont{
  margin-top: 50px;
@@ -152,4 +161,7 @@
     margin-left: 25%;
     margin-right: 25%;
     height: 450px;
+}
+.body{
+    font-family: 'Caveat Brush', cursive;!important;
 }

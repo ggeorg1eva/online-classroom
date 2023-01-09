@@ -3,7 +3,7 @@ INSERT INTO subjects (id, `name`)
 VALUES (1,'Math'),
        (2, 'Bulgarian language'),
        (3, 'English language'),
-       (4, 'History language'),
+       (4, 'History'),
        (5, 'Geography'),
        (6, 'Physics');
 

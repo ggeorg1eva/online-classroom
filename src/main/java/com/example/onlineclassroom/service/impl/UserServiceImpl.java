@@ -37,26 +37,6 @@ public class UserServiceImpl implements UserService {
         this.studentService = studentService;
     }
 
-
-    @Override
-    public void initAdmin() {
-        if (userRepository.count() != 0) {
-            return;
-        }
-        UserRole adminRole = userRoleService.getRole(UserRoleEnum.ADMIN);
-
-        if (adminRole != null) {
-            User admin = new User();
-            admin.setEgn("7801254763");
-            admin.setEmail("admin@gmail.com");
-            admin.setPassword(passwordEncoder.encode("1234"));
-            admin.setUsername("admin");
-            admin.setUserRole(adminRole);
-
-            userRepository.save(admin);
-        }
-    }
-
     @Override
     public String registerUser(UserServiceModel serviceModel) {
         User user = userRepository.findByUsernameOrEmailOrEgn(serviceModel.getUsername(),

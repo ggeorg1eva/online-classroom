@@ -6,17 +6,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class InitDB implements CommandLineRunner {
-    private final UserService userService;
     private final UserRoleService userRoleService;
 
-    public InitDB(UserService userService, UserRoleService userRoleService) {
-        this.userService = userService;
+    public InitDB(UserRoleService userRoleService) {
         this.userRoleService = userRoleService;
     }
 
     @Override
     public void run(String... args) throws Exception {
         userRoleService.initUserRoles();
-        userService.initAdmin();
     }
 }

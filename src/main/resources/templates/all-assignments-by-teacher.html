@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="commons::head">
 </head>
-<body>
+<body class="body">
 <!-- navigation -->
 <nav th:replace="commons::nav"></nav>
 
@@ -27,6 +27,9 @@
         </tr>
         </thead>
         <tbody>
+        <tr th:if="${#lists.isEmpty(assignments)}">
+            <td th:text="|You have not created any assignments|"></td>
+        </tr>
         <tr class="text-center" th:each="a : ${assignments}" th:object="${a}">
             <td th:text="*{name}"></td>
             <td th:unless="*{description == null}" th:text="*{description}"></td>

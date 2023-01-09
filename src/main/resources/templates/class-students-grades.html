@@ -4,58 +4,61 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="commons::head">
 </head>
-<body>
+<body class="body">
 <!-- navigation -->
 <nav th:replace="commons::nav"></nav>
 <!--todo fix front end of small and in general-->
-<small th:if="${gradeExists}" th:text="|This student already has a grade for this assignment|" class="bg-danger"></small>
 <div class="gr-cont container">
-<table class="my-table table table-bordered m-2" style="width: 40rem;">
-    <caption class="caption-top text-center">Student</caption>
-    <thead>
-    <tr class="text-center">
-        <th scope="col">Full name</th>
-        <th scope="col">Grades</th>
-        <th scope="col">Add grade</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="text-center" th:each="s : ${students}" th:object="${s}">
-        <td th:text="*{fullName}"></td>
-        <td th:if="${#strings.isEmpty(s.gradesAsString)}" th:text="'No grades'"></td>
-        <td th:unless="${#strings.isEmpty(s.gradesAsString)}" th:text="*{gradesAsString}"></td>
-        <td>
-            <div>
-                <!--/*@thymesVar id="gradeAddBindingModel" type="com.example.onlineclassroom.model.binding.GradeAddBindingModel"*/-->
-                <form th:action="@{/teachers/grades/add/{stId} (stId = ${s.id})}" th:method="post">
-                    <div class="form-group">
-                        <div class="col-auto my-1 p-2">
-                            <select th:field="${gradeAddBindingModel.assignmentNameAndDueDateString}" class="custom-select mr-sm-2" id="assignment" name="assignment">
-                                <option value="Choose">Choose assignment to grade</option>
-                                <option value="None">Not for an assignment</option>
-                                <option th:each="as : ${assignments}"
-                                        th:value="${as}" th:text="${as}"></option>
-                            </select>
+    <small th:if="${gradeExists}" th:text="|This student already has a grade for this assignment|"
+           class="grade-exist"></small>
+    <table class="my-table table table-bordered m-2" style="width: 40rem;">
+        <caption class="caption-top text-center">Student</caption>
+        <thead>
+        <tr class="text-center">
+            <th scope="col">Full name</th>
+            <th scope="col">Grades</th>
+            <th scope="col">Add grade</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="text-center" th:each="s : ${students}" th:object="${s}">
+            <td th:text="*{fullName}"></td>
+            <td th:if="${#strings.isEmpty(s.gradesAsString)}" th:text="'No grades'"></td>
+            <td th:unless="${#strings.isEmpty(s.gradesAsString)}" th:text="*{gradesAsString}"></td>
+            <td>
+                <div>
+                    <!--/*@thymesVar id="gradeAddBindingModel" type="com.example.onlineclassroom.model.binding.GradeAddBindingModel"*/-->
+                    <form th:action="@{/teachers/grades/add/{stId} (stId = ${s.id})}" th:method="post">
+                        <div class="form-group">
+                            <div class="col-auto my-1 p-2">
+                                <select th:field="${gradeAddBindingModel.assignmentNameAndDueDateString}"
+                                        class="custom-select mr-sm-2" id="assignment" name="assignment">
+                                    <option value="Choose">Choose assignment to grade</option>
+                                    <option value="None">Not for an assignment</option>
+                                    <option th:each="as : ${assignments}"
+                                            th:value="${as}" th:text="${as}"></option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-auto my-1 p-2">
-                            <select th:field="${gradeAddBindingModel.grade}" class="custom-select mr-sm-2" id="grades" name="grade">
-                                <option value="Choose">Choose grade</option>
-                                <option th:each="g : ${T (com.example.onlineclassroom.model.entity.enumeration.GradeEnum).values()}"
-                                        th:value="${g}" th:text="${g.gradeNumber}"></option>
-                            </select>
+                        <div class="form-group">
+                            <div class="col-auto my-1 p-2">
+                                <select th:field="${gradeAddBindingModel.grade}" class="custom-select mr-sm-2"
+                                        id="grades" name="grade">
+                                    <option value="Choose">Choose grade</option>
+                                    <option th:each="g : ${T (com.example.onlineclassroom.model.entity.enumeration.GradeEnum).values()}"
+                                            th:value="${g}" th:text="${g.gradeNumber}"></option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="d-flex justify-content-center m-2">
-                        <button type="submit" class="btn">Add grade</button>
-                    </div>
-                </form>
-            </div>
-        </td>
-    </tr>
-    </tbody>
-</table>
+                        <div class="d-flex justify-content-center m-2">
+                            <button type="submit" class="btn">Add grade</button>
+                        </div>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 <!-- footer -->

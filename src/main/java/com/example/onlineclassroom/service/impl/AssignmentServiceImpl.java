@@ -106,6 +106,9 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public Assignment getAssignmentByNameAndDueDateStr(String str) {
         //regex for the ": " by which the name and the dueDate were concatenated
+        if(str.isEmpty()){
+            return null;
+        }
         String[] assignmentInfoArr = str.split(":\\s");
 
         String name = assignmentInfoArr[0];

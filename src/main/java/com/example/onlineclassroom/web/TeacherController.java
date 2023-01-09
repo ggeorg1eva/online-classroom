@@ -152,14 +152,14 @@ public class TeacherController {
         }
 
         gradeAddBindingModel.setStudentId(stId);
-        //todo fix time zone
         gradeAddBindingModel.setDateOfCreation(LocalDateTime.now());
         gradeAddBindingModel.setSubjectName(teacherService.getTeacherSubjectViewByEgn(principalEgn).getName());
         GradeServiceModel serviceModel = modelMapper.map(gradeAddBindingModel, GradeServiceModel.class);
         //if this is not explicitly set to null, ModelMapper class sets it to the value found in studentId field
         serviceModel.setId(null);
 
-        if (gradeAddBindingModel.getAssignmentNameAndDueDateString().equalsIgnoreCase("none")) {
+        if (gradeAddBindingModel.getAssignmentNameAndDueDateString().equalsIgnoreCase("none") ||
+                gradeAddBindingModel.getAssignmentNameAndDueDateString().equalsIgnoreCase("choose")) {
             serviceModel.setAssignmentNameAndDueDate(null);
         }
 
