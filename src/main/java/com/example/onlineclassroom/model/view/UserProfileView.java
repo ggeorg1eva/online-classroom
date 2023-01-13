@@ -1,8 +1,6 @@
 package com.example.onlineclassroom.model.view;
 
-import com.example.onlineclassroom.model.entity.enumeration.UserRoleEnum;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter

@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 

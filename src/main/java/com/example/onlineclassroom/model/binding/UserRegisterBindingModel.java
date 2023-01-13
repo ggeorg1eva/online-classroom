@@ -1,12 +1,9 @@
 package com.example.onlineclassroom.model.binding;
 
-import com.example.onlineclassroom.model.entity.UserRole;
 import com.example.onlineclassroom.model.entity.enumeration.UserRoleEnum;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

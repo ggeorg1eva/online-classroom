@@ -1,6 +1,5 @@
 package com.example.onlineclassroom.config;
 
-import com.example.onlineclassroom.model.entity.UserRole;
 import com.example.onlineclassroom.model.entity.enumeration.UserRoleEnum;
 import com.example.onlineclassroom.repository.UserRepository;
 import com.example.onlineclassroom.service.impl.UserDetailsServiceImpl;
@@ -11,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 

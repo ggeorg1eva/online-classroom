@@ -1,7 +1,5 @@
 package com.example.onlineclassroom.service;
 
-import com.example.onlineclassroom.model.binding.GradeAddBindingModel;
-import com.example.onlineclassroom.model.entity.Assignment;
 import com.example.onlineclassroom.model.entity.enumeration.GradeEnum;
 import com.example.onlineclassroom.model.service.GradeServiceModel;
 import com.example.onlineclassroom.model.view.GradeView;

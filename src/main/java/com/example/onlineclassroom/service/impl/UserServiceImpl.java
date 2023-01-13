@@ -4,7 +4,6 @@ import com.example.onlineclassroom.model.binding.EditEmailBindingModel;
 import com.example.onlineclassroom.model.binding.EditPasswordBindingModel;
 import com.example.onlineclassroom.model.binding.EditUsernameBindingModel;
 import com.example.onlineclassroom.model.entity.User;
-import com.example.onlineclassroom.model.entity.UserRole;
 import com.example.onlineclassroom.model.entity.enumeration.UserRoleEnum;
 import com.example.onlineclassroom.model.service.UserServiceModel;
 import com.example.onlineclassroom.model.view.UserProfileView;

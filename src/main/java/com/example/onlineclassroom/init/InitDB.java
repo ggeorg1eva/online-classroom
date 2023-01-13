@@ -1,6 +1,6 @@
 package com.example.onlineclassroom.init;
 
-import com.example.onlineclassroom.service.*;
+import com.example.onlineclassroom.service.UserRoleService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

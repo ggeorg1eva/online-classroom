@@ -1,13 +1,10 @@
 package com.example.onlineclassroom.service.impl;
 
 import com.example.onlineclassroom.model.entity.Student;
-import com.example.onlineclassroom.model.entity.enumeration.ClassNameEnum;
-import com.example.onlineclassroom.model.entity.enumeration.GradeEnum;
 import com.example.onlineclassroom.model.view.StudentProfileView;
 import com.example.onlineclassroom.model.view.StudentView;
 import com.example.onlineclassroom.model.view.UserProfileView;
 import com.example.onlineclassroom.repository.StudentRepository;
-import com.example.onlineclassroom.service.GradeService;
 import com.example.onlineclassroom.service.SchoolClassService;
 import com.example.onlineclassroom.service.StudentService;
 import org.modelmapper.ModelMapper;
@@ -15,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {

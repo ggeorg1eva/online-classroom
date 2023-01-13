@@ -1,6 +1,5 @@
 package com.example.onlineclassroom.service.impl;
 
-import com.example.onlineclassroom.model.binding.GradeAddBindingModel;
 import com.example.onlineclassroom.model.entity.Assignment;
 import com.example.onlineclassroom.model.entity.SchoolClass;
 import com.example.onlineclassroom.model.entity.enumeration.ClassNameEnum;
@@ -9,7 +8,6 @@ import com.example.onlineclassroom.model.view.AssignmentViewStudent;
 import com.example.onlineclassroom.model.view.AssignmentViewTeacher;
 import com.example.onlineclassroom.repository.AssignmentRepository;
 import com.example.onlineclassroom.service.AssignmentService;
-import com.example.onlineclassroom.service.GradeService;
 import com.example.onlineclassroom.service.SchoolClassService;
 import com.example.onlineclassroom.service.TeacherService;
 import org.modelmapper.ModelMapper;
@@ -19,8 +17,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service

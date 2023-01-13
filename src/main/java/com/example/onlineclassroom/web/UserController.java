@@ -10,7 +10,6 @@ import com.example.onlineclassroom.service.StudentService;
 import com.example.onlineclassroom.service.TeacherService;
 import com.example.onlineclassroom.service.UserService;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
