@@ -53,8 +53,8 @@ public class UserServiceImpl implements UserService {
         }
 
         if (serviceModel.getUserRole().equals(UserRoleEnum.STUDENT)) {
-            boolean isTeacherRegistered = studentService.registerStudent(serviceModel.getEgn());
-            if (!isTeacherRegistered) {
+            boolean isStudentRegistered = studentService.registerStudent(serviceModel.getEgn());
+            if (!isStudentRegistered) {
                 return "student-not-found";
             }
         }
