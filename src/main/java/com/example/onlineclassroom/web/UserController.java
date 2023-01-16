@@ -101,7 +101,6 @@ public class UserController {
         UserProfileView userView = userService.getUserViewFromUsername(principalUsername);
 
         if (authority.equalsIgnoreCase("teacher")){
-            //explicit casting so that the fields of the child classes are available
             userView = teacherService.getTeacherProfileInfoFromUserView(userView);
         } else {
             userView = studentService.getStudentProfileInfoFromUserView(userView);

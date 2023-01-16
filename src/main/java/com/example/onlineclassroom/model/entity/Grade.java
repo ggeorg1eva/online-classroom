@@ -24,7 +24,7 @@ public class Grade extends BaseEntity{
     @ManyToOne
     private Student student;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Assignment assignment;
 
 }
